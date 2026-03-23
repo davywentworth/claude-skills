@@ -14,6 +14,9 @@ End-of-session skill improvement and suggestions. Run this at the end of a worki
    - Edit it to incorporate the improvements.
    - Commit the changes: `cd /Users/davy/dev/claude-skills && git add -p && git commit -m "Improve <skill-name> based on session feedback"`.
 
+   - Also audit skills *created* this session — were there corrections or additions needed before they were finalized? Incorporate those learnings.
+   - Note: skills created mid-session won't be recognized by Claude Code until the next session restart. This is expected behavior.
+
 4. **Suggest new skills**
    - Identify patterns in the session that were handled ad-hoc but would benefit from a reusable skill.
    - Present suggestions to the user: skill name, one-line description, and why it would be useful based on what happened this session.
