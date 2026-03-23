@@ -22,6 +22,8 @@ End-of-session skill improvement and suggestions. Run this at the end of a worki
 5. **Update memory**
    - For any skills created or meaningfully updated, update the relevant memory files under `~/.claude/projects/`.
    - If a skill now covers something that was previously tracked in memory, trim the redundant memory entry and add a pointer to the skill instead.
+   - If new patterns or preferences emerged this session (user corrections, workflow changes, things to always/never do), save them as new feedback memories or update existing ones.
+   - Update `MEMORY.md` index to reflect any new or changed memory files.
 
 6. **Push**
    - `cd /Users/davy/dev/claude-skills && git push`
