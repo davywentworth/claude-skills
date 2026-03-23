@@ -10,7 +10,7 @@ End-of-session skill improvement and suggestions. Run this at the end of a worki
    - Look for explicit feedback ("don't do X", "it should also Y") and implicit feedback (user edited skill output, corrected behavior, or repeated a request because the first result missed the mark).
 
 3. **Propose skill updates**
-   - For each skill with actionable feedback, read the current skill file from `/Users/davy/dev/claude-skills/`.
+   - For each skill with actionable feedback, read the current skill file fresh from `/Users/davy/dev/claude-skills/` — do not rely on the version loaded into context, which may be stale if the skill was updated mid-session.
    - Also audit skills *created* this session — were there corrections or additions needed before they were finalized?
    - Draft the proposed changes and present them clearly to the user before making any edits.
    - Note: skills created mid-session won't be recognized by Claude Code until the next session restart. This is expected behavior.
