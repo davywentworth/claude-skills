@@ -54,10 +54,6 @@ Follow the plan from the issue comments. Write or update tests alongside the imp
 
 ---
 
-### 6. Open PR & link issue
+### 6. Hand off
 
-1. Follow the `/pr` workflow — push branch, create PR, open in browser, post review comment. Ensure the PR body includes `Closes #<number>` (or `Part of #<number>` for non-final chunks in a split).
-2. Post a comment on the issue linking the branch and PR:
-   ```
-   gh issue comment <number> --body "Implementation started on branch `<branch>`: <PR_URL>"
-   ```
+Tell the user the implementation is complete and they can run `/pr` when ready to open the pull request. Remind them to include `Closes #<number>` (or `Part of #<number>` for non-final chunks in a split) in the PR body.
