@@ -25,8 +25,8 @@ The user may provide one or more items in the form `Issue: <description>`, or in
 
 ## List mode (`/issue list`)
 
-1. Fetch all open issues from the repo.
-2. Display them in a clean list. For each issue, clearly indicate if it has the `needs-detail` label.
+1. Fetch all open issues and open PRs from the repo in parallel.
+2. Display open PRs first (if any), then open issues. For each issue, clearly indicate if it has the `needs-detail` label.
 
 ---
 
