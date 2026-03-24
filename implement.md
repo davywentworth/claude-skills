@@ -61,4 +61,3 @@ Follow the plan from the issue comments. Write or update tests alongside the imp
    ```
    gh issue comment <number> --body "Implementation started on branch `<branch>`: <PR_URL>"
    ```
-3. **Stop here.** Wait for the user to review and merge. Do not proceed or clean up until explicitly told.
