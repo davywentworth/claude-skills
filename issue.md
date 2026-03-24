@@ -35,7 +35,8 @@ The user may provide one or more items in the form `Issue: <description>`, or in
 Follow these steps in order — do not skip ahead:
 
 1. Fetch the issue details (title, body, comments) using `gh issue view <number>`.
-2. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
-3. Open the plan in plannotator for review using the `plannotator-annotate` skill.
-4. After the user approves the plan, post it as a comment on the GitHub issue using `gh issue comment`, then remove the `needs-detail` label with `gh issue edit <number> --remove-label needs-detail`.
-5. **Stop here.** Wait for the user's explicit go-ahead before writing any code.
+2. If the issue body is empty (no description), ask the user for context and detail before proceeding. Incorporate their response into the plan.
+3. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
+4. Open the plan in plannotator for review using the `plannotator-annotate` skill. Remind the user that they must interact with at least one element in the UI (e.g. a 👍 on the title) before closing — just closing the tab will hang the process.
+5. After the user approves the plan, post it as a comment on the GitHub issue using `gh issue comment`, then remove the `needs-detail` label with `gh issue edit <number> --remove-label needs-detail`.
+6. **Stop here.** Wait for the user's explicit go-ahead before writing any code.
