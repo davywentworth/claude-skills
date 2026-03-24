@@ -2,7 +2,7 @@ End-of-session review to make the user more efficient in future sessions. Examin
 
 ## Goal
 
-The goal is not just to fix bugs in skills — it's to reduce friction. Look for anything that slowed the user down, required extra back-and-forth, or needed manual intervention that could have been automated. Every approval prompt, correction, repeated instruction, or workaround is a candidate for elimination.
+Make interactions simpler without sacrificing power. The user should be able to say less and get more — shorter inputs, fewer approvals, less back-and-forth — while Claude handles the same quality and depth of work. Look for anything that slowed the user down, required extra clarification, needed manual intervention, or could have been inferred. Every approval prompt, correction, repeated instruction, or workaround is a candidate for elimination.
 
 ---
 
