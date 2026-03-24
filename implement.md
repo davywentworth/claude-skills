@@ -48,12 +48,12 @@ Follow the plan from the issue comments. Write or update tests alongside the imp
 
 ### 5. Quality gates
 
-1. Run `/test-review` on all new or changed test files.
-2. Run `/review` on all changes.
+1. Invoke the `/test-review` skill on all new or changed test files.
+2. Invoke the `/review` skill on all changes.
 3. Commit once both pass.
 
 ---
 
 ### 6. Hand off
 
-Tell the user the implementation is complete and they can run `/pr` when ready to open the pull request. Remind them to include `Closes #<number>` (or `Part of #<number>` for non-final chunks in a split) in the PR body.
+Invoke the `/pr` skill directly to push the branch, open the PR, and post the review comment. `/pr` will stop after opening — the user reviews and merges manually. Remind them to include `Closes #<number>` (or `Part of #<number>` for non-final chunks in a split) in the PR body.
