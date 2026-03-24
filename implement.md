@@ -31,12 +31,12 @@ Wait for the user's answer before continuing.
 
 Branch name convention: `<number>-<kebab-case-title>` (e.g. issue #42 "Add dark mode" → `42-add-dark-mode`). For split PRs, append a suffix: `42-add-dark-mode-db`, `42-add-dark-mode-api`, etc.
 
-Create a git worktree from the main repo root:
+Derive the repo name dynamically: `repo=$(basename $(git rev-parse --show-toplevel))`. Create a git worktree from the main repo root:
 ```
-git worktree add ../tech-bridge-<branch> -b <branch>
+git worktree add ../<repo>-<branch> -b <branch>
 ```
 
-All subsequent commands (implementation, tests, commits, quality gates) run from the worktree directory: `../tech-bridge-<branch>`.
+All subsequent commands (implementation, tests, commits, quality gates) run from the worktree directory: `../<repo>-<branch>`.
 
 ---
 
