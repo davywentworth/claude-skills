@@ -17,12 +17,18 @@ Full PR creation workflow: push branch, open PR, post review comment, wait for a
 
 ---
 
-## Cleanup mode (`/pr cleanup`)
+## Cleanup mode (`/pr cleanup [branch-name]`)
 
 Run this only after the user confirms the PR is merged.
 
-1. Get the current branch name: `git branch --show-current`
-2. Switch to main and pull: `git checkout main && git pull`
+Determine the branch name and worktree path:
+- If run from inside a worktree: `branch=$(git branch --show-current)`, `worktree_path=$(pwd)`
+- If a branch name is passed as an argument: use that; derive worktree path as `../tech-bridge-<branch>`
+- If neither: ask the user for the branch name
+
+Then:
+1. From the main repo (`/Users/davy/dev/tech-bridge`): `git pull`
+2. Remove the worktree: `git worktree remove <worktree_path>`
 3. Delete branch locally: `git branch -d <branch-name>`
 4. Delete branch remotely: `git push origin --delete <branch-name>`
 5. Report what was deleted.

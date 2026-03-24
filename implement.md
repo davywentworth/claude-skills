@@ -1,4 +1,4 @@
-Implement a GitHub issue end-to-end: validate it's ready, branch, implement the plan, run quality gates, open a PR, and link the issue.
+Implement a GitHub issue end-to-end: validate it's ready, create a git worktree, implement the plan, run quality gates, open a PR, and link the issue.
 
 ## Usage
 
@@ -27,11 +27,16 @@ Wait for the user's answer before continuing.
 
 ---
 
-### 3. Create feature branch
+### 3. Create worktree
 
-Create and check out a branch: `<number>-<kebab-case-title>` (e.g. issue #42 "Add dark mode" → `42-add-dark-mode`).
+Branch name convention: `<number>-<kebab-case-title>` (e.g. issue #42 "Add dark mode" → `42-add-dark-mode`). For split PRs, append a suffix: `42-add-dark-mode-db`, `42-add-dark-mode-api`, etc.
 
-For split PRs, append a suffix: `42-add-dark-mode-db`, `42-add-dark-mode-api`, etc.
+Create a git worktree from the main repo root:
+```
+git worktree add ../tech-bridge-<branch> -b <branch>
+```
+
+All subsequent commands (implementation, tests, commits, quality gates) run from the worktree directory: `../tech-bridge-<branch>`.
 
 ---
 
