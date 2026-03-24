@@ -37,6 +37,8 @@ Scan back through the full conversation and explicitly list every tool call that
 #### Memory updates
 For any new patterns, preferences, or corrections that should persist: propose additions or updates to memory files. If something is now covered by a skill, trim the redundant memory entry.
 
+When reviewing the session, also check: did Claude present multi-faceted responses (proposals, options, findings) in a format that let the user reference specific items? If not, note it — the standard is numbered top-level items with lettered sub-points so the user can reply "1b" or "approve 2 and 3".
+
 ---
 
 ### 3. Wait for approval
