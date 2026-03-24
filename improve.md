@@ -26,7 +26,7 @@ Read the full conversation and look for:
 Group findings into these categories and present them all at once:
 
 #### Skill updates
-For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes.
+For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for hardcoded project-specific values: absolute paths, repo names, usernames, port numbers, or org names. Flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
 
 #### New skills
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
