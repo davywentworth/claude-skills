@@ -32,7 +32,11 @@ For each skill with actionable feedback: read the current file fresh from `/User
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
 #### Permission additions
-Scan back through the full conversation and explicitly list every tool call that required a user approval prompt — do not rely on memory. For each one, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow` using the `Bash(<prefix>:*)` pattern. Prefer directory-scoped prefixes (e.g. `cd /some/path && git:*`) over broad ones (e.g. `git push:*`) when the operation is only safe in a specific repo.
+Scan back through the full conversation and explicitly list every tool call that required a user approval prompt — do not rely on memory. For each one, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow`. Syntax differs by tool:
+- **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
+- **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
+
+Prefer directory-scoped rules over broad ones when the operation is only safe in a specific location.
 
 #### Memory updates
 For any new patterns, preferences, or corrections that should persist: propose additions or updates to memory files. If something is now covered by a skill, trim the redundant memory entry.
