@@ -10,7 +10,7 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
 
 3. **Write the skill** — create `/Users/davy/dev/claude-skills/<name>.md` with clear instructions. Follow the same style as existing skills in that directory: imperative tone, step-by-step where appropriate, no unnecessary preamble.
 
-4. **Show it to the user** — print the skill content and ask if they want any changes before proceeding.
+4. **Review with plannotator** — invoke the `plannotator-annotate` skill to open the file for review. Remind the user they must interact with at least one element (e.g. 👍 on the title) before closing — just closing the tab will hang the process. Incorporate any feedback before proceeding.
 
 5. **Commit and symlink**
    ```bash
