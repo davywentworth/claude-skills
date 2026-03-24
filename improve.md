@@ -8,7 +8,7 @@ Make interactions simpler without sacrificing power. The user should be able to 
 
 ## Steps
 
-### 1. Analyse the session
+### 1. Analyze the session
 
 Read the full conversation and look for:
 
