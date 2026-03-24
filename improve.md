@@ -47,7 +47,7 @@ Present all proposals together. Wait for the user to approve or reject each one 
 
 ### 4. Apply approved changes
 
-- Update skill files, create new skills (write to `/Users/davy/dev/claude-skills/<name>.md`, symlink to `~/.claude/commands/<name>.md`)
+- Update skill files, create new skills using the `/new-skill <name>` skill (handles write, commit, and symlink)
 - Apply permission additions to `~/.claude/settings.json`
 - Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push`
 - Update memory files and `MEMORY.md` index
