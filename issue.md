@@ -37,6 +37,7 @@ Follow these steps in order — do not skip ahead:
 1. Fetch the issue details (title, body, comments) using `gh issue view <number>`.
 2. If the issue body is empty (no description), ask the user for context and detail before proceeding. Incorporate their response into the plan.
 3. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
-4. Open the plan in plannotator for review using the `plannotator-annotate` skill. Remind the user that they must interact with at least one element in the UI (e.g. a 👍 on the title) before closing — just closing the tab will hang the process.
-5. After the user approves the plan, post it as a comment on the GitHub issue using `gh issue comment`, then remove the `needs-detail` label with `gh issue edit <number> --remove-label needs-detail`.
-6. **Stop here.** Wait for the user's explicit go-ahead before writing any code. When they give it, tell them to run `/implement <number>` to begin implementation.
+4. Invoke the `/devils-advocate` skill on the plan. Present the full analysis to the user. Revise the plan to address any top concerns before proceeding.
+5. Open the revised plan in plannotator for review using the `plannotator-annotate` skill. Remind the user that they must interact with at least one element in the UI (e.g. a 👍 on the title) before closing — just closing the tab will hang the process.
+6. After the user approves the plan, post it as a comment on the GitHub issue using `gh issue comment`, then remove the `needs-detail` label with `gh issue edit <number> --remove-label needs-detail`.
+7. **Stop here.** Wait for the user's explicit go-ahead before writing any code. When they give it, tell them to run `/implement <number>` to begin implementation.
