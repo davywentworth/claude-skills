@@ -20,7 +20,7 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
    git add <name>.md
    git commit -m "Add <name> skill"
    git push
-   ln -s /Users/davy/dev/claude-skills/<name>.md ~/.claude/commands/<name>.md
+   ln -sf /Users/davy/dev/claude-skills/<name>.md ~/.claude/commands/<name>.md
    ```
 
 7. **Update memory** — add a reference to the new skill in the relevant memory file(s) if it covers something previously tracked in memory, or note it in MEMORY.md under Claude Skills.
