@@ -26,7 +26,9 @@ Read the full conversation and look for:
 Group findings into these categories and present them all at once:
 
 #### Skill updates
-For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for hardcoded project-specific values: absolute paths, repo names, usernames, port numbers, or org names. Flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
+For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for:
+- **Hardcoded project-specific values**: absolute paths, repo names, usernames, port numbers, or org names — flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
+- **Missing skill delegation**: any skill that makes code changes and commits without first invoking `/review` is missing a quality gate. Flag it and propose adding the invocation before the commit step.
 
 #### New skills
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
@@ -57,7 +59,7 @@ Present all proposals together. Wait for the user to approve or reject each one 
 
 ---
 
-### 4. Apply approved changes
+### 5. Apply approved changes
 
 - **Creating** new skills: use the `/new-skill <name>` skill (handles write, commit, and symlink)
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.

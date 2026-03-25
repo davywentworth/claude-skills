@@ -206,10 +206,13 @@ For each adopted comment from the plan:
 - Read the target file using the Read tool.
 - Make the edit using the Edit tool.
 
-After all changes are made, run tests for the affected package(s). This project is a monorepo — determine which packages were changed:
-- `backend/` changes → `cd backend && npm test`
-- `frontend/` changes → `cd frontend && npm test`
-- Both changed → run both
+After all changes are made:
+
+1. **Invoke the `/review` skill** on the changes to catch any issues introduced by the applied feedback before committing.
+2. **Run tests** for the affected package(s). This project is a monorepo — determine which packages were changed:
+   - `backend/` changes → `cd backend && npm test`
+   - `frontend/` changes → `cd frontend && npm test`
+   - Both changed → run both
 
 Stage only the files that were changed by adopted feedback. Create a single commit with the following message:
 
