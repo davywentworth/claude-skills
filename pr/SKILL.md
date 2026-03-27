@@ -10,10 +10,11 @@ Full PR creation workflow: push branch, open PR, post review comment, wait for a
 ## Default mode (`/pr`)
 
 1. **Push** the current branch: `git push -u origin HEAD`
-2. **Create PR** using `mcp__github__create_pull_request` with a title and body summarizing the changes (follow the PR format from CLAUDE.md)
-3. **Open in browser**: run `open <PR_URL>`
-4. **Post review comment**: Look for `/review` findings in the current conversation context. If found, use them. If not found, invoke the `/review` skill now to generate them. Then post the findings as a PR review comment using `mcp__github__create_pull_request_review` with `event: "COMMENT"`. Include all findings verbatim — even files that look good.
-5. **Stop here.** Tell the user the PR is open and waiting for their review. Do NOT proceed or offer to do anything else — wait for the user to explicitly say the PR is merged or to run `/pr cleanup`.
+2. **Create PR** using `mcp__github__create_pull_request`. Title format: `(#<issue-number>) <description>` — e.g. `(#2) Make CodeEditor resizable`. Derive the issue number from the branch name (e.g. `2-editor-resizable` → `#2`). Body follows the PR format from CLAUDE.md.
+3. **Label the issue**: run `gh issue edit <issue-number> --add-label "in-review"` to mark it in-review.
+4. **Open in browser**: run `open <PR_URL>`
+5. **Post review comment**: Look for `/review` findings in the current conversation context. If found, use them. If not found, invoke the `/review` skill now to generate them. Then post the findings as a PR review comment using `mcp__github__create_pull_request_review` with `event: "COMMENT"`. Include all findings verbatim — even files that look good.
+6. **Stop here.** Tell the user the PR is open and waiting for their review. Do NOT proceed or offer to do anything else — wait for the user to explicitly say the PR is merged or to run `/pr cleanup`.
 
 ---
 
