@@ -69,17 +69,13 @@ When reviewing the session, also check: did Claude present multi-faceted respons
 
 ### 3. Cross-check proposals against memory
 
-Before presenting any proposal, read the relevant memory and feedback files and verify the proposal doesn't contradict an established preference. If it does, either drop it or explicitly flag the tension and explain why overriding the preference is warranted. A proposal that conflicts with existing memory without acknowledging it will require a correction round — which is exactly the friction this skill exists to eliminate.
+Before applying any change, read the relevant memory and feedback files and verify the proposal doesn't contradict an established preference. If it does, either drop it or explicitly flag the tension and explain why overriding the preference is warranted. A proposal that conflicts with existing memory without acknowledging it will require a correction round — which is exactly the friction this skill exists to eliminate.
 
 ---
 
-### 4. Wait for approval
+### 4. Apply changes
 
-Present all proposals together. Wait for the user to approve or reject each one before making any changes.
-
----
-
-### 5. Apply approved changes
+Present findings, then immediately apply all changes without waiting for approval — skill files are committed to git and trivially reversible. The user can push back after the fact if anything is wrong.
 
 - **Creating** new skills: use the `/new-skill <name>` skill (handles write, commit, and symlink)
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
