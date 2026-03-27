@@ -8,6 +8,7 @@ Determine mode from how the skill was invoked:
 
 - **`/issue list`** — list open issues
 - **`/issue plan <number>`** — create a plan for an issue
+- **`/issue evaluate <number>`** — review and revise an existing plan already posted as an issue comment
 - **Default with description (one or more lines starting with "Issue:")** — brain dump mode
 - **Default with no args and no description** — list mode (same as `/issue list`)
 
@@ -27,7 +28,30 @@ The user may provide one or more items in the form `Issue: <description>`, or in
 ## List mode (`/issue list`)
 
 1. Fetch all open issues and open PRs from the repo in parallel using `mcp__github__list_issues` and `mcp__github__list_pull_requests`.
-2. Output a solid full-width line using box-drawing characters (`─` U+2500, repeated ~80 times), then display open PRs (if any), then open issues. For each issue, clearly indicate if it has the `needs-detail` label.
+2. Display results as a box-drawing table with columns: `#`, `Title`, `Labels`. Use `─`, `│`, `┬`, `┼`, `┴`, `├`, `┤` characters. Separate every row with a full `────┼────` divider line. Show PRs first (if any), then issues. End with a summary line (e.g. `7 issues · 2 PRs`). Example format:
+
+```
+────────────┬──────────────────────────────────────────────────────────────┬───────────────
+ #          │ Title                                                        │ Labels
+────────────┼──────────────────────────────────────────────────────────────┼───────────────
+ #20        │ Extend curriculum support beyond TypeScript, JS, and Python  │ needs-detail
+────────────┼──────────────────────────────────────────────────────────────┼───────────────
+ #2         │ Editor needs to be resizable                                 │
+────────────┴──────────────────────────────────────────────────────────────┴───────────────
+ 2 issues · 0 PRs
+```
+
+---
+
+## Evaluate mode (`/issue evaluate <number>`)
+
+For when a plan already exists as an issue comment and needs review/revision.
+
+1. Fetch the issue details using `mcp__github__get_issue`, then fetch comments separately: `gh api repos/{owner}/{repo}/issues/{number}/comments` (MCP has no get-comments tool).
+2. Identify the most recent plan comment.
+3. Invoke the `/devils-advocate` skill on the plan. Present the full analysis to the user.
+4. Incorporate any accepted concerns into a revised plan.
+5. Post the revised plan as a new comment on the issue using `mcp__github__add_issue_comment`, noting it supersedes the previous plan.
 
 ---
 
@@ -35,7 +59,7 @@ The user may provide one or more items in the form `Issue: <description>`, or in
 
 Follow these steps in order — do not skip ahead:
 
-1. Fetch the issue details (title, body, comments) using `mcp__github__get_issue`.
+1. Fetch the issue details using `mcp__github__get_issue`, then fetch comments separately: `gh api repos/{owner}/{repo}/issues/{number}/comments` (MCP has no get-comments tool). Use the body + comments together as context.
 2. If the issue body is empty (no description), ask the user for context and detail before proceeding. Incorporate their response into the plan.
 3. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
 4. Invoke the `/devils-advocate` skill on the plan. Present the full analysis to the user. Revise the plan to address any top concerns before proceeding.
