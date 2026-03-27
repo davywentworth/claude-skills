@@ -47,7 +47,13 @@ For each skill with actionable feedback: read the current file fresh from `/User
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
 #### 2c. Permission additions
-Scan back through the full conversation and explicitly enumerate every tool call made this session. For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow`. Syntax differs by tool:
+Scan back through the full conversation and explicitly enumerate every tool call made this session. For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes).
+
+Read **both** settings files:
+- `~/.claude/settings.json` — global permissions
+- `<project-root>/.claude/settings.local.json` — project-level permissions (check if this file exists)
+
+Permissions must appear in the **project-level** `settings.local.json` to take effect when working from a project context — a permission in the global file alone may still prompt. If a permission exists only in `~/.claude/settings.json` but not in the project file, flag it and propose adding it to the project file. Propose additions to `permissions.allow` in `settings.local.json`. Syntax differs by tool:
 - **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
 - **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
 

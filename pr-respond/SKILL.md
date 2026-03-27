@@ -32,17 +32,9 @@ The raw string following the slash command is available as ARGUMENTS (e.g., "123
 
 ### 2. Resolve the PR
 
-If a PR number was extracted from arguments, fetch its metadata:
+If a PR number was extracted from arguments, fetch its metadata using `mcp__github__get_pull_request`.
 
-```bash
-gh pr view <number> --json number,title,body,state,url,headRefName
-```
-
-If no PR number was provided, detect the PR from the current branch:
-
-```bash
-gh pr list --head "$(git branch --show-current)" --state open --json number --jq ".[0].number"
-```
+If no PR number was provided, detect the PR from the current branch using `mcp__github__list_pull_requests` filtered by the current branch name (from `git branch --show-current`); take the first open result.
 
 If multiple PRs match, use the first result.
 
@@ -84,11 +76,7 @@ Replace OWNER, REPO, and NUM with the actual values resolved in Step 2.
 
 **Only evaluate comments from unresolved threads.** Skip resolved threads entirely.
 
-Also fetch top-level review bodies:
-
-```bash
-gh api repos/{owner}/{repo}/pulls/{number}/reviews
-```
+Also fetch top-level review bodies using `mcp__github__get_pull_request_reviews`.
 
 Only review-submitted comments and inline PR review comments count. General PR conversation comments (issue-style comments on the PR timeline) are NOT review feedback and should be excluded.
 
