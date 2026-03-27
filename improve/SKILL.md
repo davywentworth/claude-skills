@@ -8,6 +8,19 @@ Make interactions simpler without sacrificing power. The user should be able to 
 
 ## Steps
 
+### 0. Read the ecosystem inventory
+
+Before analyzing the session, read all four ecosystem artifacts so you have a current picture of what exists:
+
+1. `~/.claude/CLAUDE.md` — global preferences
+2. `~/.claude/settings.json` — permissions
+3. All `SKILL.md` files in `/Users/davy/dev/claude-skills/`
+4. `~/.claude/projects/<current-project>/memory/MEMORY.md` and all memory files it references
+
+Any proposal that touches one artifact must be checked against all others for consistency.
+
+---
+
 ### 1. Analyze the session
 
 Read the full conversation and look for:
@@ -41,7 +54,7 @@ Scan back through the full conversation and explicitly enumerate every tool call
 Prefer directory-scoped rules over broad ones when the operation is only safe in a specific location.
 
 #### 2d. Memory updates
-For any new patterns, preferences, or corrections that should persist: propose additions or updates to memory files. If something is now covered by a skill, trim the redundant memory entry.
+For any new patterns, preferences, or corrections that should persist: determine whether they belong in `~/.claude/CLAUDE.md` (cross-project, applies everywhere) or the project memory files (specific to this repo). Propose additions or updates accordingly. If something is now covered by a skill or already in the global CLAUDE.md, trim the redundant entry.
 
 When reviewing the session, also check: did Claude present multi-faceted responses (proposals, options, findings) in a format that let the user reference specific items? If not, note it — the standard is numbered top-level items with lettered sub-points so the user can reply "1b" or "approve 2 and 3".
 
@@ -64,5 +77,6 @@ Present all proposals together. Wait for the user to approve or reject each one 
 - **Creating** new skills: use the `/new-skill <name>` skill (handles write, commit, and symlink)
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
 - Apply permission additions to `~/.claude/settings.json`
+- Update `~/.claude/CLAUDE.md` for cross-project preferences
 - Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push`
-- Update memory files and `MEMORY.md` index
+- Update project memory files and `MEMORY.md` index
