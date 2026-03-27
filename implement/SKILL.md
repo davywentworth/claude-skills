@@ -10,9 +10,9 @@ Implement a GitHub issue end-to-end: validate it's ready, create a git worktree,
 
 ### 1. Fetch & validate
 
-1. Fetch issue details using `mcp__github__get_issue` (include title, body, labels, comments)
+1. Fetch issue details using `mcp__github__get_issue`, then fetch comments separately: `gh api repos/{owner}/{repo}/issues/{number}/comments` (MCP has no get-comments tool). Derive owner/repo from `gh repo view --json owner,name`.
 2. If the issue has the `needs-detail` label → **stop**. Tell the user to run `/issue plan <number>` first.
-3. If no comment contains `## Steps`, `## Implementation`, or `## Plan` → **stop**. Tell the user to run `/issue plan <number>` first.
+3. If no comment contains any of `## Steps`, `## Implementation`, `## Plan`, or `## Changes` → **stop**. Tell the user to run `/issue plan <number>` first.
 
 ---
 
