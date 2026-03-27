@@ -53,7 +53,7 @@ Read **both** settings files:
 - `~/.claude/settings.json` — global permissions
 - `<project-root>/.claude/settings.local.json` — project-level permissions (check if this file exists)
 
-Permissions must appear in the **project-level** `settings.local.json` to take effect when working from a project context — a permission in the global file alone may still prompt. If a permission exists only in `~/.claude/settings.json` but not in the project file, flag it and propose adding it to the project file. Propose additions to `permissions.allow` in `settings.local.json`. Syntax differs by tool:
+A permission in the global file does not guarantee it will take effect when working from a project context — the project-level file may be what's actually checked. If a tool call prompted despite a matching rule appearing in `~/.claude/settings.json`, check whether that rule is also present in the project's `settings.local.json`. If not, that's the gap — propose adding it there. Propose additions to `permissions.allow` in `settings.local.json`. Syntax differs by tool:
 - **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
 - **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
 
