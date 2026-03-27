@@ -85,5 +85,5 @@ Present all proposals together. Wait for the user to approve or reject each one 
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
 - Apply permission additions to the project's `.claude/settings.local.json` (required for the permission to take effect in project context). If the permission is useful across all projects, also add it to `~/.claude/settings.json`.
 - Update `~/.claude/CLAUDE.md` for cross-project preferences
-- Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push`
+- Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push` — keep the message a single line; heredocs inside `&&` chains cause EOF parse errors
 - Update project memory files and `MEMORY.md` index
