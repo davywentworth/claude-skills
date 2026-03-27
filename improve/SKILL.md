@@ -25,22 +25,22 @@ Read the full conversation and look for:
 
 Group findings into these categories and present them all at once:
 
-#### Skill updates
+#### 2a. Skill updates
 For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for:
 - **Hardcoded project-specific values**: absolute paths, repo names, usernames, port numbers, or org names — flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
 - **Missing skill delegation**: any skill that makes code changes and commits without first invoking `/review` is missing a quality gate. Flag it and propose adding the invocation before the commit step.
 
-#### New skills
+#### 2b. New skills
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
-#### Permission additions
+#### 2c. Permission additions
 Scan back through the full conversation and explicitly enumerate every tool call made this session. For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow`. Syntax differs by tool:
 - **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
 - **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
 
 Prefer directory-scoped rules over broad ones when the operation is only safe in a specific location.
 
-#### Memory updates
+#### 2d. Memory updates
 For any new patterns, preferences, or corrections that should persist: propose additions or updates to memory files. If something is now covered by a skill, trim the redundant memory entry.
 
 When reviewing the session, also check: did Claude present multi-faceted responses (proposals, options, findings) in a format that let the user reference specific items? If not, note it — the standard is numbered top-level items with lettered sub-points so the user can reply "1b" or "approve 2 and 3".
