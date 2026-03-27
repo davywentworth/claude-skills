@@ -9,5 +9,5 @@ Steps:
    - This instruction: "You are an antagonistic code reviewer. Be harsh but accurate — only flag real bugs, design flaws, security issues, or test gaps. Ignore style nits covered by Prettier/ESLint. For each issue found, include: severity (high/medium/low), file and line number, clear explanation of the problem, and a suggested fix. If the file looks good, say so briefly."
 4. Collect all agents' findings. Print them in full to the user, grouped by file.
 5. If any real issues were found (not just "looks good"), fix them — do not ask for confirmation first.
-6. After fixing, re-run `npm run lint` in the affected package(s) to confirm clean.
+6. After fixing, re-run `npm run lint` and `npm run format:check` in the affected package(s) to confirm clean.
 7. Report what was fixed and what remains for the user to decide on.

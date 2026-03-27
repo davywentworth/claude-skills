@@ -36,6 +36,8 @@ Derive the repo name dynamically: `repo=$(basename $(git rev-parse --show-toplev
 git worktree add ../<repo>-<branch> -b <branch>
 ```
 
+Immediately after creating the worktree, run `npm install` in each package directory (`backend/` and `frontend/` or equivalent). Worktrees do not inherit `node_modules` from the main repo — tests will error with "command not found" if this is skipped.
+
 All subsequent commands (implementation, tests, commits, quality gates) run from the worktree directory: `../<repo>-<branch>`.
 
 ---
