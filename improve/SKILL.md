@@ -48,7 +48,7 @@ For each skill with actionable feedback: read the current file fresh from `/User
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
 #### 2c. Permission additions
-Scan back through the full conversation and explicitly enumerate every tool call made this session. For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes).
+Scan back through the full conversation and explicitly enumerate every tool call made this session — including tool calls made during this `/improve` run itself (reads, edits, bash commands used to gather the ecosystem inventory). For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes).
 
 Read **both** settings files:
 - `~/.claude/settings.json` — global permissions
