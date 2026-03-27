@@ -42,6 +42,7 @@ Group findings into these categories and present them all at once:
 For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for:
 - **Hardcoded project-specific values**: absolute paths, repo names, usernames, port numbers, or org names — flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
 - **Missing skill delegation**: any skill that makes code changes and commits without first invoking `/review` is missing a quality gate. Flag it and propose adding the invocation before the commit step.
+- **Cross-skill pattern consistency**: if any skill was updated this session to change a tool or pattern (e.g. `gh` → MCP, one library → another), grep all other skills for the old pattern and flag any that weren't updated in the same pass.
 
 #### 2b. New skills
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
@@ -82,7 +83,7 @@ Present all proposals together. Wait for the user to approve or reject each one 
 
 - **Creating** new skills: use the `/new-skill <name>` skill (handles write, commit, and symlink)
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
-- Apply permission additions to `~/.claude/settings.json`
+- Apply permission additions to the project's `.claude/settings.local.json` (required for the permission to take effect in project context). If the permission is useful across all projects, also add it to `~/.claude/settings.json`.
 - Update `~/.claude/CLAUDE.md` for cross-project preferences
 - Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push`
 - Update project memory files and `MEMORY.md` index
