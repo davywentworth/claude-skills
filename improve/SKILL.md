@@ -34,7 +34,7 @@ For each skill with actionable feedback: read the current file fresh from `/User
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
 #### Permission additions
-Scan back through the full conversation and explicitly list every tool call that required a user approval prompt — do not rely on memory. For each one, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow`. Syntax differs by tool:
+Scan back through the full conversation and explicitly enumerate every `Bash` tool call made this session. For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes). Read `~/.claude/settings.json` and propose additions to `permissions.allow`. Syntax differs by tool:
 - **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
 - **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
 
