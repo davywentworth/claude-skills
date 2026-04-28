@@ -3,7 +3,8 @@ name: devils-advocate
 description: Critically evaluate proposals, plans, and arguments to identify weaknesses and offer alternative perspectives. Use before finalizing plans, issue implementations, or architectural decisions.
 ---
 
-> Adapted from: https://github.com/anutron/claude-skills/tree/main/skills/devils-advocate
+> Adapted from: https://github.com/anutron/ai/blob/main/skills/devils-advocate/SKILL.md
+> Upstream SHA: 4927d93c6274ec711a69228a2a3f73df4df30339
 
 # Devil's Advocate
 

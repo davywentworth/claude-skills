@@ -2,11 +2,56 @@ Browse a GitHub repo's Claude Code skills/commands, compare them to your existin
 
 ## Usage
 
-`/adapt-skills <github-repo-url>`
+- `/adapt-skills <github-repo-url>` — browse and adapt skills from an external repo
+- `/adapt-skills update` — check all locally adapted skills for upstream changes
 
 ---
 
-## Steps
+## Update mode (`/adapt-skills update`)
+
+Check whether any locally adapted skills have drifted from their upstream source.
+
+### 1. Find adapted skills
+
+Scan all files in `/Users/davy/dev/claude-skills/` for the two-line credit block:
+
+```
+> Adapted from: <url>
+> Upstream SHA: <sha>
+```
+
+Collect each skill's name, upstream file URL, and stored SHA.
+
+### 2. Fetch current upstream SHAs
+
+For each adapted skill, parse the URL to extract owner, repo, and file path, then call `mcp__github__get_file_contents` to get the current SHA. Do all fetches in parallel.
+
+### 3. Report status
+
+Display a table:
+
+```
+────────────────┬──────────────────────────────────────────────────────┬────────────
+ Skill          │ Upstream file                                        │ Status
+────────────────┼──────────────────────────────────────────────────────┼────────────
+ pr-respond     │ anutron/ai — skills/pr-respond/SKILL.md              │ Up to date
+────────────────┼──────────────────────────────────────────────────────┼────────────
+ devils-advocate│ anutron/ai — skills/devils-advocate/SKILL.md         │ Changed
+────────────────┴──────────────────────────────────────────────────────┴────────────
+```
+
+### 4. For each changed skill
+
+Fetch the upstream content and present a clear diff against the local version. For each difference, ask the user whether to adopt it.
+
+If any changes are adopted:
+- Apply them to the local SKILL.md
+- Update the `> Upstream SHA:` line to the new SHA
+- Commit the changes in `/Users/davy/dev/claude-skills/` with message: `Update <skill-name> from upstream (sha: <new-sha>)`
+
+---
+
+## Adapt mode (`/adapt-skills <github-repo-url>`)
 
 ### 1. Get the repo URL
 
@@ -60,11 +105,13 @@ Ask the user: "Which of these would you like to bring in?"
 
 For each skill the user wants to incorporate:
 
-1. Draft the adapted content. Include a credit line near the top:
+1. Use `mcp__github__get_file_contents` to fetch the file and capture both the content and its `sha` field.
+2. Draft the adapted content. Include this credit block near the top (after any frontmatter):
    ```
-   > Adapted from: <original-file-url>
+   > Adapted from: <html_url of the upstream file>
+   > Upstream SHA: <sha from the API response>
    ```
-2. Adjust the content to match established conventions:
+3. Adjust the content to match established conventions:
    - Branch naming, worktree paths, quality gates (`/review`, `/test-review`)
    - Issue-driven workflow, PR-first approach
    - Memory/MEMORY.md updates where relevant

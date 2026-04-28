@@ -3,7 +3,8 @@ name: pr-respond
 description: Read PR review feedback, triage each comment (adopt/reject with reasoning), optionally apply changes and commit. Writes artifacts to ~/.claude/pr-responses/. Use when a PR has received review comments that need to be addressed.
 ---
 
-> Adapted from: https://github.com/anutron/claude-skills/tree/main/skills/pr-respond
+> Adapted from: https://github.com/anutron/ai/blob/main/skills/pr-respond/SKILL.md
+> Upstream SHA: 353541dd145c435974be5e708af8174d489ed03a
 
 # PR Respond
 
