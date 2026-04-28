@@ -48,17 +48,30 @@ For each skill with actionable feedback: read the current file fresh from `/User
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
 
 #### 2c. Permission additions
-Check `~/.claude/permission-log.jsonl` for any permission prompts that fired during this session — this is a hook-captured log of every `PermissionRequest` event. Each entry includes `timestamp`, `tool_name`, `tool_input`, `permission_suggestions`, and `cwd`. Use this as the authoritative list of what actually triggered a prompt, then cross-reference with the conversation to assess context.
 
-Also scan back through the full conversation and explicitly enumerate every tool call made this session — including tool calls made during this `/improve` run itself (reads, edits, bash commands used to gather the ecosystem inventory). For each one, note whether it ran without prompting or triggered an approval prompt. Do not summarise — list them. Only after completing this audit conclude whether there are permission gaps. For each prompted call, assess whether it's safe to auto-approve globally (e.g. read-only `gh` commands, posting comments) vs. warranting case-by-case approval (destructive operations, pushes).
+**Step 1 — Settings gap audit (do this first, before looking at the log):**
 
-Read **both** settings files:
+Read both settings files:
 - `~/.claude/settings.json` — global permissions
 - `<project-root>/.claude/settings.local.json` — project-level permissions (check if this file exists)
 
-A permission in the global file does not guarantee it will take effect when working from a project context — the project-level file may be what's actually checked. If a tool call prompted despite a matching rule appearing in `~/.claude/settings.json`, check whether that rule is also present in the project's `settings.local.json`. If not, that's the gap — propose adding it there. Propose additions to `permissions.allow` in `settings.local.json`. Syntax differs by tool:
-- **`Bash`**: prefix syntax — `Bash(cd /some/path && git:*)` — matches commands starting with that string
-- **`Edit`**: glob syntax — `Edit(/some/path/**)` — matches file paths using glob patterns
+In a project context, `settings.local.json` is what's enforced — rules in `settings.json` do NOT automatically apply. For every rule in `settings.json`, check whether an equivalent rule exists in `settings.local.json`. Any rule that's in the global file but missing from the project file is a gap that will cause permission prompts. List every such gap explicitly.
+
+**Step 2 — Permission log audit:**
+
+Check `~/.claude/permission-log.jsonl` for entries during this session. This hook fires on every `PermissionRequest` event. Critical: `"behavior": "allow", "destination": "session"` does NOT mean auto-approved — it means the user approved a one-time session grant (i.e., they were prompted and clicked allow). Only `"destination": "settings"` indicates a permanent rule was added. Treat any entry with `"destination": "session"` as user friction.
+
+Cross-reference each log entry with the settings gap list from Step 1. Entries that match a missing rule confirm the gap caused a real prompt.
+
+**Step 3 — Propose fixes:**
+
+For each confirmed gap or prompted call, assess whether it's safe to auto-approve:
+- Safe globally: read-only operations (`ls`, `grep`, `cat`, `tail`), MCP read calls, posting comments
+- Case-by-case: destructive operations, force pushes, branch deletion
+
+Propose additions to `permissions.allow` in `settings.local.json`. Syntax:
+- **`Bash`**: prefix syntax — `Bash(ls:*)` — matches commands starting with that string
+- **`Read`**: glob syntax — `Read(/some/path/**)` — matches file paths
 
 Prefer directory-scoped rules over broad ones when the operation is only safe in a specific location.
 
