@@ -67,7 +67,7 @@ Use `WebFetch` or the GitHub MCP tools to find skills in the repo. Look in these
 2. Any directory named `skills/`, `commands/`, or `prompts/`
 3. README or docs that describe slash commands
 
-Read every skill file you find.
+**Fetch and read EVERY skill file you find — do NOT pre-screen or skip based on the name alone.** Skill names are often ambiguous or misleading; the only way to evaluate fit is to read the content.
 
 ---
 
@@ -120,7 +120,13 @@ For each skill the user wants to incorporate:
 
 ### 7. Wire it up
 
-Invoke the `/new-skill <name>` skill, passing the drafted content. `/new-skill` handles writing the file, the plannotator review, committing, pushing, and symlinking.
+**For a single skill:** invoke the `/new-skill <name>` skill — it handles writing, plannotator review, commit, push, and symlink.
+
+**For multiple skills (batch adaptation):** do NOT call `/new-skill` N times (that would open N plannotator sessions). Instead:
+1. Write all adapted `SKILL.md` files directly with the Write tool
+2. Invoke `plannotator:plannotator-review` once to review all changes together
+3. After approval: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Add N adapted skills from <repo>" && git push`
+4. Symlink each: `ln -sf /Users/davy/dev/claude-skills/<name> ~/.claude/commands/<name>`
 
 ---
 

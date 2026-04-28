@@ -61,8 +61,9 @@ Follow these steps in order — do not skip ahead:
 
 1. Fetch the issue details using `mcp__github__get_issue`, then fetch comments separately: `gh api repos/{owner}/{repo}/issues/{number}/comments` (MCP has no get-comments tool). Use the body + comments together as context.
 2. If the issue body is empty (no description), ask the user for context and detail before proceeding. Incorporate their response into the plan.
-3. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
-4. Invoke the `/devils-advocate` skill on the plan. Present the full analysis to the user. Revise the plan to address any top concerns before proceeding.
-5. Open the revised plan in plannotator for review using the `plannotator-annotate` skill. Remind the user that they must interact with at least one element in the UI (e.g. a 👍 on the title) before closing — just closing the tab will hang the process.
-6. After the user approves the plan, post it as a comment on the GitHub issue using `mcp__github__add_issue_comment`, then remove the `needs-detail` label using `gh issue edit <number> --remove-label needs-detail` (no MCP tool available for label removal).
-7. **Stop here.** Wait for the user's explicit go-ahead before writing any code. When they give it, tell them to run `/implement <number>` to begin implementation.
+3. Spawn an Explore agent (subagent_type: Explore) to gather codebase context relevant to the issue. Give it the issue title and description, and instruct it to: find files likely to be touched, identify existing patterns to follow (naming, structure, conventions), and surface any related code that the plan should account for. Incorporate its findings into the plan.
+4. Write a thorough implementation plan to `plans/<issue-slug>.md` where `<issue-slug>` is the issue number + kebab-case title (e.g. `plans/42-add-dark-mode.md`).
+5. Invoke the `/devils-advocate` skill on the plan. Present the full analysis to the user. Revise the plan to address any top concerns before proceeding.
+6. Open the revised plan in plannotator for review using the `plannotator-annotate` skill. Remind the user that they must interact with at least one element in the UI (e.g. a 👍 on the title) before closing — just closing the tab will hang the process.
+7. After the user approves the plan, post it as a comment on the GitHub issue using `mcp__github__add_issue_comment`, then remove the `needs-detail` label using `gh issue edit <number> --remove-label needs-detail` (no MCP tool available for label removal).
+8. **Stop here.** Wait for the user's explicit go-ahead before writing any code. When they give it, tell them to run `/implement <number>` to begin implementation.
