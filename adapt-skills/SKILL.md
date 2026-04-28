@@ -24,7 +24,7 @@ Collect each skill's name, upstream file URL, and stored SHA.
 
 ### 2. Fetch current upstream SHAs
 
-For each adapted skill, parse the URL to extract owner, repo, and file path, then call `mcp__github__get_file_contents` to get the current SHA. Do all fetches in parallel.
+For each adapted skill, parse the URL to extract owner, repo, and file path. GitHub blob URLs follow the format `https://github.com/{owner}/{repo}/blob/{branch}/{path}` — extract accordingly. Then call `mcp__github__get_file_contents` to get the current SHA. Do all fetches in parallel.
 
 ### 3. Report status
 
