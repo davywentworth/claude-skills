@@ -153,5 +153,5 @@ If plan review produces feedback that changes the design, exit plan mode, update
 
 After plan approval (`ExitPlanMode`):
 
-- Create a GitHub issue for the feature using `/issue` — include the plan as the issue body so `/implement` can find it
+- Create a GitHub issue by invoking the `/issue` skill via the Skill tool — do NOT call `mcp__github__create_issue` directly. Include the plan as the issue body so `/implement` can find it.
 - Tell the user: "Plan approved. Run `/implement <issue-number>` to execute."
