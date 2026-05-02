@@ -14,6 +14,7 @@ Turn ideas into fully-formed designs and strategic implementation plans. Two pha
 ## Arguments
 
 - `$ARGUMENTS` - Optional: description of the feature or idea to develop
+- `--no-research` — skip the automatic research step (Step 0)
 
 ## Hard Gate
 
@@ -22,6 +23,16 @@ Do not write any code or take any implementation action until you have presented
 ---
 
 # Phase 1: Brainstorm
+
+## Step 0: Research
+
+If `--no-research` is present in the arguments, skip this step entirely.
+
+Otherwise: only run research if the user provided a specific, well-defined topic in the invocation arguments. If the topic is vague or absent, complete Steps 1–4 first to clarify it, then offer to run `/research` before ideation begins.
+
+When the topic is clear, invoke the `/research` skill via the Skill tool, passing the topic as the query. The skill returns a summary string and a slug. If research fails or returns nothing useful, note the failure briefly to the user and continue without research context.
+
+On success, keep the summary in mind as background context for all subsequent steps. Note the full doc path as `~/research/<slug>/README.md` for reference.
 
 ## Step 1: Read project context
 
