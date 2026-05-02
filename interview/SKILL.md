@@ -14,7 +14,13 @@ Run a collaborative, structured review of any system, feature, or domain. You ar
 
 - `$ARGUMENTS` - What to review (e.g. "the permissions system", "our API routes", "the onboarding flow")
 
-If no arguments provided, ask: "What would you like to review?"
+**Before asking anything**, check for an existing `*_review/` directory:
+```bash
+find . -maxdepth 1 -type d -name "*_review"
+```
+If one exists with `inventory.md` and `discussion.log`, read both, present the inventory with current status, and resume from the first pending item. Do not ask what to review.
+
+If no review is in progress and no arguments provided, ask: "What would you like to review?"
 
 ## Context
 
@@ -108,7 +114,7 @@ For each item in the current section:
 3. **After the chunk is resolved**, present the next chunk of the same item.
 
 4. **After all chunks for an item are resolved:**
-   - Log the discussion: `./log.sh Claude "<summary of decisions>"`
+   - Log the discussion using the absolute path: `<project-root>/<review-name>_review/log.sh "Claude" "<summary of decisions>"` — never use a relative `./log.sh` path, it will fail the permission check
    - Update `inventory.md` to mark the item complete
    - Present the section progress table with updated status
    - Move to the next item
@@ -125,7 +131,7 @@ After completing all items in a section:
 When the user gives an instruction requiring an artifact:
 - Create it immediately, in the same turn
 - Use the format negotiated in Phase 0
-- If the format is GitHub issues, use `mcp__github__create_issue` directly (parse owner/repo from `git remote get-url origin`)
+- If the format is GitHub issues, invoke the `/issue` skill via the Skill tool — do NOT call `mcp__github__create_issue` directly
 - Number artifacts sequentially (e.g. FINDING-001, SPEC-001)
 - Each artifact should be self-contained — readable without context from the conversation
 - Announce: "Created [ARTIFACT-NNN]: [title]"
@@ -142,9 +148,15 @@ After all sections are reviewed:
    - Cross-cutting themes or patterns noticed
    - Open questions or deferred items
 
-2. **Log the final summary** to the discussion log
+2. **Open the report in plannotator** for review:
+   ```
+   /plannotator-annotate <review-name>_review/report.md
+   ```
+   For each annotation: address it, update `report.md`, and log the decision to the discussion log using the absolute path to `log.sh`.
 
-3. **Commit** all review artifacts:
+3. **Log the final summary** to the discussion log
+
+4. **Commit** all review artifacts:
    ```bash
    git add <review-name>_review/
    git commit -m "Add <review-name> review artifacts"
@@ -181,15 +193,3 @@ The interview's primary job is knowledge transfer — getting what the user know
 7. **Be opinionated.** Flag things that look wrong, inconsistent, or surprising. Say "this feels like it might belong elsewhere" or "this overlaps with X."
 8. **Adapt to the user's pace.** Rapid-fire approvals → pick up pace. Deep dives → slow down.
 
----
-
-## Resuming a Review
-
-If a review was started in a prior session:
-
-1. Check for an existing `*_review/` directory with `inventory.md` and `discussion.log`
-2. Read both to understand where the review left off
-3. Present the inventory with current status
-4. Resume from the first pending item
-
-This works across context resets, new sessions, and different Claude instances.
