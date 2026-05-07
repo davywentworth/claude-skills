@@ -7,6 +7,8 @@ description: Gap analysis + resume bullet rewrites for a specific job req, sourc
 
 Takes a job URL or pasted JD and produces a gap analysis plus concrete resume rewrites using the career background KB as source material. Output is conversational — the user picks what to apply.
 
+**Never navigate to or interact with application forms.** Research and prep only — the user submits manually. AI traps on applications can disqualify candidates.
+
 ## Arguments
 
 - `<url-or-jd>` — job posting URL or raw JD text (required)
