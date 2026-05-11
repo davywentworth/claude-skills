@@ -6,15 +6,21 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
 
 1. **Get the skill name** — use the argument provided, or ask the user for it if not given.
 
-2. **Get the skill description** — ask the user: "What should `/name` do?" Let them describe it in plain language. Ask any clarifying questions needed to write a complete, unambiguous skill.
+2. **Determine visibility** — if the user explicitly says "private" (in the invocation or context), the skill goes in the private repo. Otherwise it is public.
+   - Public repo: `/Users/davy/dev/claude-skills/`
+   - Private repo: `/Users/davy/dev/claude-skills-private/`
 
-3. **Check existing skills for reuse** — read all `SKILL.md` files in `/Users/davy/dev/claude-skills/` subdirectories and identify any whose behavior overlaps with substeps of the new skill. Where a substep is already handled by an existing skill, the new skill should invoke that skill via the Skill tool rather than reproducing the behavior inline. Note which skills will be reused before drafting.
+3. **Get the skill description** — ask the user: "What should `/name` do?" Let them describe it in plain language. Ask any clarifying questions needed to write a complete, unambiguous skill.
 
-4. **Write the skill** — create `/Users/davy/dev/claude-skills/<name>/SKILL.md` with clear instructions. Follow the same style as existing skills in that directory: imperative tone, step-by-step where appropriate, no unnecessary preamble. Incorporate invocations of existing skills identified in step 3.
+4. **Check existing skills for reuse** — read all `SKILL.md` files in both repos (`/Users/davy/dev/claude-skills/` and `/Users/davy/dev/claude-skills-private/`) and identify any whose behavior overlaps with substeps of the new skill. Where a substep is already handled by an existing skill, the new skill should invoke that skill via the Skill tool rather than reproducing the behavior inline. Note which skills will be reused before drafting.
 
-5. **Review with plannotator** — invoke the `plannotator-annotate` skill to open the file for review. Remind the user they must interact with at least one element (e.g. 👍 on the title) before closing — just closing the tab will hang the process. Incorporate any feedback before proceeding.
+5. **Write the skill** — create `<repo>/<name>/SKILL.md` with clear instructions. Follow the same style as existing skills: imperative tone, step-by-step where appropriate, no unnecessary preamble. Incorporate invocations of existing skills identified in step 4.
 
-6. **Commit and symlink**
+6. **Review with plannotator** — invoke the `plannotator-annotate` skill to open the file for review. Remind the user they must interact with at least one element (e.g. 👍 on the title) before closing — just closing the tab will hang the process. Incorporate any feedback before proceeding.
+
+7. **Commit and symlink**
+
+   For a **public** skill:
    ```bash
    cd /Users/davy/dev/claude-skills
    git add <name>/SKILL.md
@@ -23,6 +29,15 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
    ln -sf /Users/davy/dev/claude-skills/<name> ~/.claude/commands/<name>
    ```
 
-7. **Update memory** — add a reference to the new skill in the relevant memory file(s) if it covers something previously tracked in memory, or note it in MEMORY.md under Claude Skills.
+   For a **private** skill:
+   ```bash
+   cd /Users/davy/dev/claude-skills-private
+   git add <name>/SKILL.md
+   git commit -m "Add <name> skill"
+   git push
+   ln -sf /Users/davy/dev/claude-skills-private/<name> ~/.claude/commands/<name>
+   ```
 
-8. **Remind the user** that the skill won't be available until the next session restart.
+8. **Update memory** — add a reference to the new skill in the relevant memory file(s) if it covers something previously tracked in memory, or note it in MEMORY.md under Claude Skills.
+
+9. **Remind the user** that the skill won't be available until the next session restart.
