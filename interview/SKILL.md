@@ -18,7 +18,7 @@ Run a collaborative, structured review of any system, feature, or domain. You ar
 ```bash
 find . -maxdepth 1 -type d -name "*_review"
 ```
-If one exists with `inventory.md` and `discussion.log`, read both, present the inventory with current status, and resume from the first pending item. Do not ask what to review.
+If one exists, read `inventory.md` first. If it contains `**Status: COMPLETE**`, present the summary table from `inventory.md` and ask what to review next — do not read any other files. Otherwise, read `discussion.log` as well, present the inventory with current status, and resume from the first pending item. Do not ask what to review.
 
 If no review is in progress and no arguments provided, ask: "What would you like to review?"
 
@@ -142,29 +142,31 @@ When the user gives an instruction requiring an artifact:
 
 After all sections are reviewed:
 
-1. **Produce a summary document** at `<review-name>_review/summary.md`:
+1. **Verify inventory completeness**: before writing `summary.md`, scan `inventory.md` and confirm every item is marked `complete`. If any are still `pending` or `reviewing`, update them now. Then add `**Status: COMPLETE**` at the top of `inventory.md` (immediately after the title).
+
+2. **Produce a summary document** at `<review-name>_review/summary.md`:
    - Total items reviewed
    - Total artifacts produced (with titles and links/paths)
    - Cross-cutting themes or patterns noticed
    - Open questions or deferred items
 
-2. **Open the report in plannotator** for review:
+3. **Open the report in plannotator** for review:
    ```
    /plannotator-annotate <review-name>_review/report.md
    ```
    For each annotation: address it, update `report.md`, and log the decision to the discussion log using the absolute path to `log.sh`.
 
-3. **Log the final summary** to the discussion log
+4. **Log the final summary** to the discussion log
 
-4. **Commit** all review artifacts:
+5. **Commit** all review artifacts:
    ```bash
    git add <review-name>_review/
    git commit -m "Add <review-name> review artifacts"
    ```
 
-4. **Ask** if there is anything to revisit or if the review is complete
+6. **Ask** if there is anything to revisit or if the review is complete
 
-5. **Offer brainstorm handoff** — if the interview surfaced problems, gaps, or opportunities worth designing a solution for:
+7. **Offer brainstorm handoff** — if the interview surfaced problems, gaps, or opportunities worth designing a solution for:
 
    > "We've covered the problem space. Want to move into designing a solution? I can hand off to `/brainstorm` with everything we've discussed."
 

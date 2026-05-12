@@ -14,7 +14,8 @@ Full PR creation workflow: push branch, open PR, post review comment, wait for a
 3. **Label the issue**: run `gh issue edit <issue-number> --add-label "in-review"` to mark it in-review.
 4. **Open in browser**: run `open <PR_URL>`
 5. **Post review comment**: Look for `/review` findings in the current conversation context. If found, use them. If not found, invoke the `/review` skill now to generate them. Then post the findings as a PR review comment using `mcp__github__create_pull_request_review` with `event: "COMMENT"`. Include all findings verbatim — even files that look good.
-6. **Stop here.** Tell the user the PR is open and waiting for their review. Do NOT proceed or offer to do anything else — wait for the user to explicitly say the PR is merged or to run `/pr cleanup`.
+6. **Run multi-agent PR review**: Invoke `/pr-review-toolkit:review-pr` to run the 6-agent review on the newly created PR. Post the findings as an additional PR review comment using `mcp__github__create_pull_request_review` with `event: "COMMENT"`.
+7. **Stop here.** Tell the user the PR is open and the multi-agent review is posted. Do NOT proceed or offer to do anything else — wait for the user to explicitly say the PR is merged or to run `/pr cleanup`.
 
 ---
 
