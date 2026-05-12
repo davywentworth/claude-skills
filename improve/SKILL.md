@@ -63,6 +63,10 @@ Check `~/.claude/permission-log.jsonl` for entries during this session. This hoo
 
 Cross-reference each log entry with the settings gap list from Step 1. Entries that match a missing rule confirm the gap caused a real prompt.
 
+**Step 2b — Transcript frequency audit:**
+
+Grep the current session transcript for permission prompt patterns (look for phrases like "needs your permission", "would like to", "Allow", tool-call denial messages, and repeated identical Bash/Read/MCP calls that appear more than once). Group by resource (file path, command prefix, or MCP tool name) and count occurrences. Any resource that was prompted **more than once** in the same session is a settings gap — the user had to approve the same thing multiple times, which is pure friction. Add these to the gap list alongside any found in Step 2.
+
 **Step 3 — Propose fixes:**
 
 For each confirmed gap or prompted call, assess whether it's safe to auto-approve:
