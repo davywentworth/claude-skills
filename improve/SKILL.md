@@ -92,7 +92,26 @@ Before applying any change, read the relevant memory and feedback files and veri
 
 ---
 
-### 4. Apply changes
+### 4. Run skill tests
+
+Before applying any skill changes, run behavioral tests for every skill that either (a) has a proposal in this session or (b) has a `tests/scenarios.md` file.
+
+For each skill with a `tests/scenarios.md`:
+1. Invoke `/skill-tdd run <skill-name>` — spawns isolated agent sessions per scenario and evaluates assertions
+2. Record pass/fail results
+
+**On failures:**
+- If the failing scenario corresponds to a friction pattern already in the proposal: apply the proposed fix, then re-run the failing scenario
+- If the failing scenario is a regression (not addressed by any proposal): add a fix to the proposal before applying
+- Re-run failing scenarios after each fix; escalate if still failing after one fix cycle (report: scenario name, assertion violated, what was tried)
+
+**On all-pass:** proceed to apply changes as normal. Note in the commit message which tests ran and passed.
+
+Skip this step if no skills have a `tests/scenarios.md` yet — but note in the output that test coverage is missing.
+
+---
+
+### 5. Apply changes
 
 Present findings, then immediately apply all changes without waiting for approval — skill files are committed to git and trivially reversible. The user can push back after the fact if anything is wrong.
 
