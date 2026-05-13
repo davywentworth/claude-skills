@@ -20,9 +20,7 @@ Behavioral test framework for Claude Code skills. Each skill gets a `tests/scena
 
 ### 1. Find the skill
 
-Locate the skill directory:
-1. Check `/Users/davy/dev/claude-skills/<name>/` (public)
-2. Check `/Users/davy/dev/claude-skills-private/<name>/` (private)
+Locate the skill directory by following the symlink: `readlink -f ~/.claude/commands/<name>`. This resolves to the real path in either the public or private skills repo. If no symlink exists, check the paths defined in CLAUDE.md Skills Workflow section.
 
 Read `SKILL.md` and `tests/scenarios.md`. If `tests/scenarios.md` is missing, say so and offer to run `generate` mode first.
 

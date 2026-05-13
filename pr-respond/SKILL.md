@@ -1,6 +1,6 @@
 ---
 name: pr-respond
-description: Read PR review feedback, triage each comment (adopt/reject with reasoning), optionally apply changes and commit. Writes artifacts to ~/.claude/pr-responses/. Use when a PR has received review comments that need to be addressed.
+description: This skill should be used when a PR has received review comments that need to be addressed. Reads feedback, triages each comment (adopt/reject with reasoning), and optionally applies changes and commits. Writes artifacts to ~/.claude/pr-responses/.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/pr-respond/SKILL.md
@@ -198,10 +198,7 @@ For each adopted comment from the plan:
 After all changes are made:
 
 1. **Invoke the `/review` skill** on the changes to catch any issues introduced by the applied feedback before committing.
-2. **Run tests** for the affected package(s). This project is a monorepo — determine which packages were changed:
-   - `backend/` changes → `cd backend && npm test`
-   - `frontend/` changes → `cd frontend && npm test`
-   - Both changed → run both
+2. **Run tests** for the affected package(s). Detect the project's test runner from `package.json`, `Makefile`, `pyproject.toml`, or `go.mod`. For each package with changed files, run the appropriate test command. Do not assume a monorepo layout — derive it from the repo structure.
 
 Stage only the files that were changed by adopted feedback. Create a single commit with the following message:
 

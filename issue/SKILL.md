@@ -1,3 +1,9 @@
+---
+name: issue
+description: This skill should be used when the user wants to manage GitHub issues — create issues from brain dumps, list open issues, plan an issue's implementation, or evaluate an existing plan. Handles brain dump mode, list mode, plan mode, and evaluate mode.
+user-invocable: true
+---
+
 GitHub issue workflow skill. Handles brain dumps, listing, and planning.
 
 Use GitHub MCP tools (`mcp__github__*`) for all GitHub operations — do NOT use `gh` CLI via Bash unless no MCP tool exists for the operation. The repo owner/name are parameters to MCP calls; ask the user if ambiguous.

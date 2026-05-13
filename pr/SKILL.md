@@ -1,3 +1,9 @@
+---
+name: pr
+description: This skill should be used when the user wants to push a branch and open a pull request, or clean up after a PR is merged. Default mode creates the PR, opens it in the browser, and posts a review comment. /pr cleanup removes the worktree and deletes branches after merge.
+user-invocable: true
+---
+
 Full PR creation workflow: push branch, open PR, post review comment, wait for approval. Includes post-merge branch cleanup.
 
 ## Modes

@@ -1,6 +1,6 @@
 ---
 name: interview
-description: Structured interview-style review of any system, feature, or codebase. Builds an inventory, walks through items one-by-one in small chunks, tracks progress, captures decisions as artifacts. Use when you want to systematically review, audit, or evaluate something collaboratively.
+description: This skill should be used when the user wants to systematically review, audit, or evaluate a system, feature, or codebase collaboratively. Builds an inventory, walks through items one-by-one in small chunks, tracks progress, and captures decisions as artifacts.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/interview/SKILL.md
@@ -150,11 +150,11 @@ After all sections are reviewed:
    - Cross-cutting themes or patterns noticed
    - Open questions or deferred items
 
-3. **Open the report in plannotator** for review:
+3. **Open the summary in plannotator** for review:
    ```
-   /plannotator-annotate <review-name>_review/report.md
+   /plannotator-annotate <review-name>_review/summary.md
    ```
-   For each annotation: address it, update `report.md`, and log the decision to the discussion log using the absolute path to `log.sh`.
+   For each annotation: address it, update `summary.md`, and log the decision to the discussion log using the absolute path to `log.sh`.
 
 4. **Log the final summary** to the discussion log
 

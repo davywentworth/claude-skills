@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Use when encountering any bug, test failure, or unexpected behavior — spawns multiple parallel investigators with competing hypotheses to find the root cause faster
+description: This skill should be used when the user reports a bug, test failure, or unexpected behavior and wants a systematic parallel investigation. Spawns competing-hypothesis investigators in parallel to find root cause faster than single-agent linear debugging.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/debug/SKILL.md
@@ -156,7 +156,7 @@ Once root cause is identified:
 ROOT CAUSE CONFIRMED: {description}
 
 Implement a fix. Keep it minimal — fix the bug, nothing more.
-Run targeted tests for the packages you changed (cd backend && npm test -- --run, or cd frontend && npm test -- --run).
+Run targeted tests for the packages you changed. Detect the test runner from the project structure (package.json → npm test, Makefile → make test, pyproject.toml → pytest, go.mod → go test ./...) and run the appropriate command for each affected package.
 Commit with message: "Fix: {short description}"
 When done, message me with your changes.
 ```

@@ -1,3 +1,9 @@
+---
+name: implement
+description: This skill should be used when the user wants to implement a GitHub issue end-to-end. Validates readiness, creates a git worktree, implements the plan, runs quality gates, opens a PR, and links the issue. Invoke as /implement <issue-number>.
+user-invocable: true
+---
+
 Implement a GitHub issue end-to-end: validate it's ready, create a git worktree, implement the plan, run quality gates, open a PR, and link the issue.
 
 ## Usage
@@ -18,12 +24,9 @@ Implement a GitHub issue end-to-end: validate it's ready, create a git worktree,
 
 ### 2. PR splitting check
 
-Ask: "Should this be implemented as a single PR, or split into smaller ones?"
+Default to a **single PR** and proceed to step 3. If the issue plan has 3 or more clearly independent stages, note the option to split in a single line but do not block — proceed with a single PR unless the user explicitly requested a split.
 
-Wait for the user's answer before continuing.
-
-- **Single PR**: proceed to step 3.
-- **Split**: read the plan and determine logical split points (e.g. DB layer → route layer → frontend). Present the proposed breakdown and wait for the user to confirm it before starting. Implement each chunk as a separate PR in sequence — complete all steps through step 6 for each chunk before starting the next. Use `Part of #<number>` in each PR body except the last, which gets `Closes #<number>`.
+If a split is requested (in the invocation or issue plan): read the plan and determine logical split points (e.g. DB layer → route layer → frontend). Implement each chunk as a separate PR in sequence — complete all steps through step 6 for each chunk before starting the next. Use `Part of #<number>` in each PR body except the last, which gets `Closes #<number>`.
 
 ---
 
@@ -36,7 +39,10 @@ Derive the repo name dynamically: `repo=$(basename $(git rev-parse --show-toplev
 git worktree add ../<repo>-<branch> -b <branch>
 ```
 
-Immediately after creating the worktree, run `npm install` in each package directory (`backend/` and `frontend/` or equivalent). Worktrees do not inherit `node_modules` from the main repo — tests will error with "command not found" if this is skipped.
+Immediately after creating the worktree, install dependencies based on the project type. Detect from `package.json`, `pyproject.toml`, `go.mod`, or `Cargo.toml` at the repo root:
+- **Node/JS**: run `npm install` (or `yarn install` / `pnpm install`) in each package directory. Worktrees do not inherit `node_modules` — tests will error if skipped.
+- **Python**: run `pip install -e .` or `pip install -r requirements.txt` if a requirements file exists.
+- **Go / Rust**: no install step needed — dependencies resolve at build time.
 
 All subsequent commands (implementation, tests, commits, quality gates) run from the worktree directory: `../<repo>-<branch>`.
 

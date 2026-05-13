@@ -1,6 +1,6 @@
 ---
 name: fixit
-description: Use when the user reports a bug that can be fixed without blocking current work. Creates a GitHub issue for tracking history, then backgrounds an agent in a worktree to fix and merge back.
+description: This skill should be used when the user reports a bug that can be fixed without blocking current work. Creates a GitHub issue for tracking, backgrounds an agent in a worktree to fix it, and merges the result back automatically.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/fixit/SKILL.md
@@ -100,18 +100,14 @@ Use the `Agent` tool with `run_in_background: true`:
 1. Read CLAUDE.md for project conventions and architecture
 2. Explore the codebase to understand and reproduce the problem
 3. Implement the fix — keep it minimal, don't refactor surrounding code
-4. Run tests for the affected package(s):
-   - Backend: cd backend && npm test -- --run
-   - Frontend: cd frontend && npm test -- --run
-5. Run lint: npm run lint in affected package(s)
+4. Run tests for the affected package(s). Detect the test runner from the project structure (package.json → npm test, Makefile → make test, pyproject.toml → pytest, go.mod → go test ./...) and run the appropriate command for each changed package.
+5. Run lint for affected package(s) using the project's configured linter (npm run lint, go vet, ruff, etc.)
 6. Commit with message: "Fix #<issue-number>: <short description>"
    The "Fix #N" prefix auto-closes the GitHub issue when merged to main.
 7. Report status: DONE | DONE_WITH_CONCERNS | BLOCKED
 
-### Code Style (from CLAUDE.md)
-- No semicolons, single quotes, 2-space indent
-- Trailing commas where valid in ES5
-- Max line width: 100 characters
+### Code Style
+Read CLAUDE.md in the worktree for all code style conventions — do not assume defaults.
 
 ### Constraints
 - Work ONLY in your worktree directory: <worktree path>

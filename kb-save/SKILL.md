@@ -1,6 +1,6 @@
 ---
 name: kb-save
-description: Save conversation-generated content to the research knowledge base at ~/research/. Handles slug derivation, new-vs-expansion detection, frontmatter, manifest update, and cross-linking. Use after interviews, employer research, or any session that produces knowledge worth persisting.
+description: This skill should be used after research sessions, employer research, or any conversation that produces knowledge worth persisting to ~/research/. Handles slug derivation, new-vs-expansion detection, frontmatter, manifest update, and cross-linking.
 ---
 
 # Save to Research Knowledge Base
@@ -42,7 +42,7 @@ If no match → **new mode**.
 
 Before writing, check whether this content belongs in an existing doc's section rather than as a standalone KB entry. Specifically:
 
-- **Employer research for a job search company** → belongs in `~/research/job-search/README.md` under `## Company Notes`, not as a standalone entry. Ask the user to confirm if unsure.
+- **Employer research for a job search company** → the full profile belongs in `~/research/job-search/company-research.md`; a one-line summary row belongs in the Company Notes table in `~/research/job-search/README.md`. Do not create a standalone entry.
 - **Sub-topic of an existing doc** → expansion mode into the parent doc.
 - **Genuinely standalone topic** → new entry.
 

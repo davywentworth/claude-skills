@@ -1,3 +1,9 @@
+---
+name: research
+description: This skill should be used when the user wants to conduct multi-agent web research and store results as a growing knowledge base at ~/research/. Accepts a query, spawns parallel research agents, synthesizes findings, and returns a summary with a slug for the stored document.
+user-invocable: true
+---
+
 Conduct multi-agent web research and store results as a growing knowledge base at `~/research/`.
 
 ## Arguments
@@ -36,7 +42,7 @@ Resolve the following values before spawning:
 - **mode**: `new` or `expansion`
 - **date**: today's date (YYYY-MM-DD)
 
-When constructing the child agent prompt below, substitute all `{{placeholder}}` tokens with these resolved values. Do not forward literal placeholder strings.
+When constructing the child agent prompt below, substitute all `{{placeholder}}` tokens with the resolved values. Do not forward literal placeholder strings.
 
 Spawn a **child agent** (`general-purpose` subagent_type) with these instructions:
 
@@ -44,12 +50,12 @@ Spawn a **child agent** (`general-purpose` subagent_type) with these instruction
 
 You are the Research Orchestrator. Research the query below and produce a structured knowledge base document.
 
-**Query:** (substituted query)
-**Slug:** (substituted slug)
-**Mode:** (new or expansion)
-**Today's date:** (substituted date)
+**Query:** {{query}}
+**Slug:** {{slug}}
+**Mode:** {{mode}}
+**Today's date:** {{date}}
 
-**If expansion mode:** read `~/research/<slug>/README.md` now — you will add to it, not replace it.
+**If expansion mode:** read `~/research/{{slug}}/README.md` now — you will add to it, not replace it.
 
 #### Step A — Decompose
 
@@ -59,12 +65,12 @@ Break the query into 0–6 subtopics based on complexity:
 
 #### Step B — Spawn grandchild agents in parallel
 
-For each subtopic, resolve its name, then spawn one **grandchild agent** (`general-purpose`) per subtopic simultaneously. When constructing each grandchild prompt, substitute the actual subtopic name and query — do not pass literal placeholder text.
+For each subtopic, resolve its name, then spawn one **grandchild agent** (`general-purpose`) per subtopic simultaneously. When constructing each grandchild prompt, substitute `{{subtopic}}` and `{{query}}` with the actual values — do not pass literal placeholder text.
 
 Each grandchild receives these instructions (with substituted values):
 
-> You are researching the subtopic: **(subtopic name)**
-> Broader context: **(query)**
+> You are researching the subtopic: **{{subtopic}}**
+> Broader context: **{{query}}**
 >
 > Steps:
 > 1. Run 3–5 WebSearch queries covering different angles of this subtopic

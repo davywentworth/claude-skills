@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: Use before any non-trivial feature or design decision — explores intent, surfaces assumptions, proposes approaches, writes a design doc and implementation plan, then hands off to /implement.
+description: This skill should be used when the user wants to design a feature, explore a technical decision, or plan an implementation before writing code. Explores intent, surfaces assumptions, proposes approaches, writes a design doc and implementation plan, then hands off to /implement.
 user-invocable: true
 ---
 

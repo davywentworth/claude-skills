@@ -1,3 +1,9 @@
+---
+name: adapt-skills
+description: This skill should be used when the user wants to browse skills from an external GitHub repo, compare them to their own workflow, and selectively adapt chosen skills. Also use for `/adapt-skills update` to check locally adapted skills for upstream drift.
+user-invocable: true
+---
+
 Browse a GitHub repo's Claude Code skills/commands, compare them to your existing workflow, and suggest which ones are worth adapting.
 
 ## Usage
@@ -13,7 +19,7 @@ Check whether any locally adapted skills have drifted from their upstream source
 
 ### 1. Find adapted skills
 
-Scan all files in `/Users/davy/dev/claude-skills/` for the two-line credit block:
+Scan all SKILL.md files in both local skill repos (paths defined in CLAUDE.md Skills Workflow section) for the two-line credit block:
 
 ```
 > Adapted from: <url>
@@ -47,7 +53,7 @@ Fetch the upstream content and present a clear diff against the local version. F
 If any changes are adopted:
 - Apply them to the local SKILL.md
 - Update the `> Upstream SHA:` line to the new SHA
-- Commit the changes in `/Users/davy/dev/claude-skills/` with message: `Update <skill-name> from upstream (sha: <new-sha>)`
+- Commit the changes in the appropriate local skill repo with message: `Update <skill-name> from upstream (sha: <new-sha>)`
 
 ---
 
@@ -73,7 +79,7 @@ Use `WebFetch` or the GitHub MCP tools to find skills in the repo. Look in these
 
 ### 3. Read your own skills
 
-Read all files in `/Users/davy/dev/claude-skills/` and review the workflows described in memory (MEMORY.md). This gives you the baseline to compare against.
+Read all SKILL.md files in both local skill repos (paths from CLAUDE.md Skills Workflow section) and review the workflows described in memory (MEMORY.md). This gives you the baseline to compare against.
 
 ---
 
@@ -106,7 +112,7 @@ Ask the user: "Which of these would you like to bring in?"
 For each skill the user wants to incorporate:
 
 1. Use `mcp__github__get_file_contents` to fetch the file and capture both the content and its `sha` field.
-2. Draft the adapted content. Include this credit block near the top (after any frontmatter):
+2. Draft the adapted content. The file MUST start with YAML frontmatter including a third-person trigger description and `user-invocable: true`. Fetch the upstream skill's own frontmatter as a starting point, but rewrite the description to match the third-person trigger pattern ("This skill should be used when..."). After the frontmatter, include this credit block:
    ```
    > Adapted from: <html_url of the upstream file>
    > Upstream SHA: <sha from the API response>
@@ -125,8 +131,8 @@ For each skill the user wants to incorporate:
 **For multiple skills (batch adaptation):** do NOT call `/new-skill` N times (that would open N plannotator sessions). Instead:
 1. Write all adapted `SKILL.md` files directly with the Write tool
 2. Invoke `plannotator:plannotator-review` once to review all changes together
-3. After approval: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Add N adapted skills from <repo>" && git push`
-4. Symlink each: `ln -sf /Users/davy/dev/claude-skills/<name> ~/.claude/commands/<name>`
+3. After approval: commit and push from the appropriate skill repo. Derive the repo path from CLAUDE.md Skills Workflow section.
+4. Symlink each: `ln -sf <skill-repo>/<name> ~/.claude/commands/<name>`
 
 ---
 

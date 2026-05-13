@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use when about to claim work is complete, before committing or creating PRs — requires running verification commands and confirming output. Evidence before assertions, always.
+description: This skill should be used when Claude is about to claim work is complete, commit, create a PR, or assert that tests/lint/builds pass. Requires running verification commands and reading actual output before making any completion claim. Evidence before assertions, always.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/verification-before-completion/SKILL.md
@@ -72,6 +72,8 @@ Skip any step = lying, not verifying
 | "Partial check is enough" | Partial proves nothing |
 
 ## Key Patterns
+
+Adapt all commands to the project's stack. For Python use `pytest`, for Go use `go test ./...`, for Rust use `cargo test`. The examples below use Node/TypeScript.
 
 **Tests (Node/TypeScript projects):**
 ```

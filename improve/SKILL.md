@@ -1,3 +1,9 @@
+---
+name: improve
+description: This skill should be used at the end of a session to audit friction points, propose skill and permission improvements, and apply changes to the ecosystem. Examines how the user interacted with Claude and proposes concrete improvements across skills, permissions, memory, and workflow.
+user-invocable: true
+---
+
 End-of-session review to make the user more efficient in future sessions. Examines how the user interacted with Claude and proposes concrete improvements across skills, permissions, memory, and workflow.
 
 ## Goal
@@ -14,7 +20,7 @@ Before analyzing the session, read all four ecosystem artifacts so you have a cu
 
 1. `~/.claude/CLAUDE.md` — global preferences
 2. `~/.claude/settings.json` — permissions
-3. All `SKILL.md` files in `/Users/davy/dev/claude-skills/`
+3. All `SKILL.md` files in both skill repos (paths defined in CLAUDE.md Skills Workflow section)
 4. `~/.claude/projects/<current-project>/memory/MEMORY.md` and all memory files it references
 
 Any proposal that touches one artifact must be checked against all others for consistency.
@@ -39,7 +45,7 @@ Read the full conversation and look for:
 Group findings into these categories and present them all at once:
 
 #### 2a. Skill updates
-For each skill with actionable feedback: read the current file fresh from `/Users/davy/dev/claude-skills/` (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for:
+For each skill with actionable feedback: read the current file fresh by following the symlink at `~/.claude/commands/<name>` to get the real path on disk (do not rely on context — it may be stale). Draft the proposed change and explain what friction it removes. Also check all skills for:
 - **Hardcoded project-specific values**: absolute paths, repo names, usernames, port numbers, or org names — flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
 - **Missing skill delegation**: any skill that makes code changes and commits without first invoking `/review` is missing a quality gate. Flag it and propose adding the invocation before the commit step.
 - **Cross-skill pattern consistency**: if any skill was updated this session to change a tool or pattern (e.g. `gh` → MCP, one library → another), grep all other skills for the old pattern and flag any that weren't updated in the same pass.
@@ -119,5 +125,5 @@ Present findings, then immediately apply all changes without waiting for approva
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
 - Apply permission additions to the project's `.claude/settings.local.json` (required for the permission to take effect in project context). If the permission is useful across all projects, also add it to `~/.claude/settings.json`.
 - Update `~/.claude/CLAUDE.md` for cross-project preferences
-- Commit and push: `cd /Users/davy/dev/claude-skills && git add -A && git commit -m "Session improvements: <summary>" && git push` — keep the message a single line; heredocs inside `&&` chains cause EOF parse errors
+- Commit and push: from each skill repo that has changes (derive paths from CLAUDE.md Skills Workflow section), run `git add -A && git commit -m "Session improvements: <summary>" && git push` — keep the message a single line; heredocs inside `&&` chains cause EOF parse errors
 - Update project memory files and `MEMORY.md` index

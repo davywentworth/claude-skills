@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Generate a structured handoff prompt capturing current session context and copy to clipboard. Use when starting a /clear or passing context to another agent.
+description: This skill should be used when the user wants to capture current session context before running /clear, switching agents, or ending a session. Generates a structured handoff prompt and copies it to the clipboard.
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/handoff/SKILL.md
@@ -72,4 +72,4 @@ Tell the user: "Copied to clipboard. Run `/clear` then paste to start a fresh se
 
 ### Step 3: Save to Memory
 
-Save a brief summary to the project memory directory. The project slug is the path-encoded form of the working directory (e.g. `~/.claude/projects/-Users-davy-dev-tech-bridge/memory/`). Write `handoff_<YYYY-MM-DD>.md` capturing what was handed off and what's remaining — so the next session can recover context even if the clipboard is cleared.
+Save a brief summary to the project memory directory. Derive the project slug as the path-encoded form of the current working directory — replace `/` with `-` and drop the leading slash (e.g. a project at `/Users/name/dev/my-app` → `~/.claude/projects/-Users-name-dev-my-app/memory/`). Write `handoff_<YYYY-MM-DD>.md` capturing what was handed off and what's remaining — so the next session can recover context even if the clipboard is cleared.
