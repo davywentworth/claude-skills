@@ -124,6 +124,7 @@ Present findings, then immediately apply all changes without waiting for approva
 - **Creating** new skills: use the `/new-skill <name>` skill (handles write, commit, and symlink)
 - **Updating** existing skill files: edit directly with the Edit tool — do NOT use `/new-skill` (it creates an unnecessary symlink). Then commit all changes together below.
 - Apply permission additions to the project's `.claude/settings.local.json` (required for the permission to take effect in project context). If the permission is useful across all projects, also add it to `~/.claude/settings.json`.
+- **Run `/fewer-permission-prompts`** after applying manual permission additions — it scans transcripts for read-only Bash and MCP tool calls missed by the manual audit and adds them to the allowlist. This is especially important if any scheduled or unattended agents ran this session, since they can be interrupted by prompts the user never saw.
 - Update `~/.claude/CLAUDE.md` for cross-project preferences
 - Commit and push: from each skill repo that has changes (derive paths from CLAUDE.md Skills Workflow section), run `git add -A && git commit -m "Session improvements: <summary>" && git push` — keep the message a single line; heredocs inside `&&` chains cause EOF parse errors
 - Update project memory files and `MEMORY.md` index
