@@ -41,9 +41,9 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
 8. **Commit and symlink** — from the appropriate skill repo:
 
    ```bash
-   git add <name>/
-   git commit -m "Add <name> skill"
-   git push
+   git -C <repo-path> add <name>/
+   git -C <repo-path> commit -m "Add <name> skill"
+   git -C <repo-path> push
    ln -sf <repo-path>/<name> ~/.claude/commands/<name>
    ```
 
