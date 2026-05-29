@@ -20,8 +20,18 @@ Before analyzing the session, read all four ecosystem artifacts so you have a cu
 
 1. `~/.claude/CLAUDE.md` — global preferences
 2. `~/.claude/settings.json` — permissions
-3. All `SKILL.md` files in both skill repos (paths defined in CLAUDE.md Skills Workflow section)
+3. `SKILL.md` files — see scope rules below
 4. `~/.claude/projects/<current-project>/memory/MEMORY.md` and all memory files it references
+
+**Reading mechanism:** Always use the `Read` tool for every file. Never use `cat`, `head`, `tail`, or bash glob loops — those start with shell keywords that match no allowed Bash prefix and will prompt for permission. Multiple `Read` calls in a single parallel message are the correct pattern.
+
+**SKILL.md read scope — two passes:**
+
+*Pass 1 (always):* Read the SKILL.md for every skill explicitly invoked or modified this session (check the transcript). These are the only skills guaranteed to need review.
+
+*Pass 2 (targeted sample):* Read 3 additional skills chosen as: the 3 skills whose names come first alphabetically among those NOT already read in Pass 1. This provides a lightweight drift check without reading all 26 files every session.
+
+Skip reading skills you already have in context from this session — do not re-read unchanged files.
 
 Any proposal that touches one artifact must be checked against all others for consistency.
 
