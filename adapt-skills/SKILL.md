@@ -81,6 +81,8 @@ Use `WebFetch` or the GitHub MCP tools to find skills in the repo. Look in these
 
 Read all SKILL.md files in both local skill repos (paths from CLAUDE.md Skills Workflow section) and review the workflows described in memory (MEMORY.md). This gives you the baseline to compare against.
 
+**Use the `Read` tool for each file — not `cat`, bash glob loops, or `find | xargs cat`.** Multiple parallel `Read` calls in a single message is the correct pattern. Bash-based bulk reads start with shell keywords (`for`, `find`) that match no allowed prefix and will prompt.
+
 ---
 
 ### 4. Analyze and compare
