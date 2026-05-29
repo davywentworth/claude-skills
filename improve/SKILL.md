@@ -80,7 +80,9 @@ In a project context, `settings.local.json` is what's enforced — rules in `set
 
 **Step 2 — Permission log audit:**
 
-Check `~/.claude/permission-log.jsonl` for entries during this session. This hook fires on every `PermissionRequest` event. Critical: `"behavior": "allow", "destination": "session"` does NOT mean auto-approved — it means the user approved a one-time session grant (i.e., they were prompted and clicked allow). Only `"destination": "settings"` indicates a permanent rule was added. Treat any entry with `"destination": "session"` as user friction.
+Use the `Read` tool on `~/.claude/permission-log.jsonl` — do NOT use `python3 -c`, `cat`, or any bash command to read or parse it. `python3 -c` executes arbitrary inline code and will always prompt regardless of allowlist rules; `cat` requires `Bash(cat:*)`. The Read tool is the only safe mechanism here.
+
+After reading, scan the entries manually. The log uses pretty-printed multi-line JSON objects. Look for entries where `permission_suggestions` is non-empty — those are real prompts. Critical: `"destination": "session"` in a suggestion means the user was prompted and approved a one-time session grant (i.e., they saw a dialog). Only `"destination": "settings"` indicates a permanent rule was already in place. Treat any `"destination": "session"` entry as user friction.
 
 Cross-reference each log entry with the settings gap list from Step 1. Entries that match a missing rule confirm the gap caused a real prompt.
 
