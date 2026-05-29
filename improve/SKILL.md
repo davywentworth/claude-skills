@@ -49,6 +49,11 @@ For each skill with actionable feedback: read the current file fresh by followin
 - **Hardcoded project-specific values**: absolute paths, repo names, usernames, port numbers, or org names — flag any that should be derived dynamically (e.g. `git rev-parse`, `gh repo view`, `pwd`) or parameterised.
 - **Missing skill delegation**: any skill that makes code changes and commits without first invoking `/review` is missing a quality gate. Flag it and propose adding the invocation before the commit step.
 - **Cross-skill pattern consistency**: if any skill was updated this session to change a tool or pattern (e.g. `gh` → MCP, one library → another), grep all other skills for the old pattern and flag any that weren't updated in the same pass.
+- **Token efficiency audit** (global directive: favor cost reduction): flag any skill that exhibits these patterns:
+  - **Repeated context injection** — a large file or block pasted verbatim into every parallel agent's prompt (e.g. rules.md injected into 11 agents). Fix: extract the relevant subset once in the orchestrator, inject the compressed form.
+  - **1:1 agent-per-item spawning** — one verification/research/fetch agent spawned per candidate or item. Fix: batch 3–5 items per agent.
+  - **No-checkpoint long-running skills** — skills that spawn many agents and write nothing to disk until the very end. If the session ends mid-run, all work is lost. Fix: write a staging file after each major phase so `/skill-name continue` can resume.
+  - **Full file reads in every agent** — agents re-reading the same large file (README, KB, rules) independently. Fix: read once in the orchestrator, summarize or extract the relevant slice, pass that to agents.
 
 #### 2b. New skills
 For patterns that came up ad-hoc and would benefit from a reusable skill: propose a name, one-line description, and why it reduces friction based on this session.
