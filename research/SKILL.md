@@ -2,6 +2,7 @@
 name: research
 description: This skill should be used when the user wants to conduct multi-agent web research and store results as a growing knowledge base at ~/research/. Accepts a query, spawns parallel research agents, synthesizes findings, and returns a summary with a slug for the stored document.
 user-invocable: true
+effort: medium
 ---
 
 Conduct multi-agent web research and store results as a growing knowledge base at `~/research/`.

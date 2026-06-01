@@ -2,6 +2,8 @@
 name: changelog
 description: Use when the user asks for a changelog, release notes, or summary of recent changes. Generates a human-readable changelog from git history.
 allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git show:*), Bash(git tag:*), Bash(pbcopy:*)
+effort: low
+model: haiku
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/changelog/SKILL.md

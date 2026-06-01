@@ -1,6 +1,7 @@
 ---
 name: devils-advocate
 description: Critically evaluate proposals, plans, and arguments to identify weaknesses and offer alternative perspectives. Use before finalizing plans, issue implementations, or architectural decisions.
+effort: high
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/devils-advocate/SKILL.md

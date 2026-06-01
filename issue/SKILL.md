@@ -2,6 +2,7 @@
 name: issue
 description: This skill should be used when the user wants to manage GitHub issues — create issues from brain dumps, list open issues, plan an issue's implementation, or evaluate an existing plan. Handles brain dump mode, list mode, plan mode, and evaluate mode.
 user-invocable: true
+effort: medium
 ---
 
 GitHub issue workflow skill. Handles brain dumps, listing, and planning.

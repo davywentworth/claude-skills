@@ -1,6 +1,7 @@
 ---
 name: interview
 description: This skill should be used when the user wants to systematically review, audit, or evaluate a system, feature, or codebase collaboratively. Builds an inventory, walks through items one-by-one in small chunks, tracks progress, and captures decisions as artifacts.
+effort: medium
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/interview/SKILL.md

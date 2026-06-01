@@ -2,6 +2,7 @@
 name: new-skill
 description: This skill should be used when the user wants to create a new Claude Code skill and wire it up for global use. Handles writing the SKILL.md with proper frontmatter, plannotator review, test scenario generation, git commit, push, and symlinking. Use as /new-skill <name> or /new-skill <name> private for private skills.
 user-invocable: true
+effort: medium
 ---
 
 Create a new Claude Code skill and wire it up for global use.

@@ -1,6 +1,7 @@
 ---
 name: kb-save
 description: This skill should be used after research sessions, employer research, or any conversation that produces knowledge worth persisting to ~/research/. Handles slug derivation, new-vs-expansion detection, frontmatter, manifest update, and cross-linking.
+effort: low
 ---
 
 # Save to Research Knowledge Base

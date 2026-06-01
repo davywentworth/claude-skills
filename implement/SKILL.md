@@ -2,6 +2,7 @@
 name: implement
 description: This skill should be used when the user wants to implement a GitHub issue end-to-end. Validates readiness, creates a git worktree, implements the plan, runs quality gates, opens a PR, and links the issue. Invoke as /implement <issue-number>.
 user-invocable: true
+effort: high
 ---
 
 Implement a GitHub issue end-to-end: validate it's ready, create a git worktree, implement the plan, run quality gates, open a PR, and link the issue.

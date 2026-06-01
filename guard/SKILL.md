@@ -1,6 +1,8 @@
 ---
 name: guard
 description: This skill should be used before any git commit to check for secrets, security antipatterns, and test breakage. Fast binary pass/fail pre-commit gate.
+effort: low
+model: haiku
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/guard/SKILL.md

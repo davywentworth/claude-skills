@@ -1,6 +1,8 @@
 ---
 name: handoff
 description: This skill should be used when the user wants to capture current session context before running /clear, switching agents, or ending a session. Generates a structured handoff prompt and copies it to the clipboard.
+effort: low
+model: haiku
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/handoff/SKILL.md

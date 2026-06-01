@@ -2,6 +2,7 @@
 name: review
 description: This skill should be used when the user wants an antagonistic pre-commit code review on all staged and unstaged changes. Spawns parallel per-file review agents, fixes real issues automatically, and confirms lint passes.
 user-invocable: true
+effort: high
 ---
 
 Run an antagonistic pre-commit code review on all staged and unstaged changes.

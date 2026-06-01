@@ -1,6 +1,7 @@
 ---
 name: pr-respond
 description: This skill should be used when a PR has received review comments that need to be addressed. Reads feedback, triages each comment (adopt/reject with reasoning), and optionally applies changes and commits. Writes artifacts to ~/.claude/pr-responses/.
+effort: high
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/pr-respond/SKILL.md

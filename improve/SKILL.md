@@ -2,6 +2,7 @@
 name: improve
 description: This skill should be used at the end of a session to audit friction points, propose skill and permission improvements, and apply changes to the ecosystem. Examines how the user interacted with Claude and proposes concrete improvements across skills, permissions, memory, and workflow.
 user-invocable: true
+effort: high
 ---
 
 End-of-session review to make the user more efficient in future sessions. Examines how the user interacted with Claude and proposes concrete improvements across skills, permissions, memory, and workflow.

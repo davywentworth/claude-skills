@@ -1,6 +1,8 @@
 ---
 name: verify-config
 description: This skill should be used after any config change (settings, permissions, hooks, env vars) to confirm it actually took effect. Reports PASS/FAIL with concrete evidence — never assumes success.
+effort: low
+model: haiku
 ---
 
 Given a recent config change, verify it took effect:

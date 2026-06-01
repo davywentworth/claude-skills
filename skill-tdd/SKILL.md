@@ -1,6 +1,7 @@
 ---
 name: skill-tdd
 description: Test-driven development for Claude skills. Generates scenario files, runs behavioral tests against isolated agent sessions, and integrates with /improve for regression detection.
+effort: medium
 ---
 
 # Skill TDD

@@ -2,6 +2,7 @@
 name: adapt-skills
 description: This skill should be used when the user wants to browse skills from an external GitHub repo, compare them to their own workflow, and selectively adapt chosen skills. Also use for `/adapt-skills update` to check locally adapted skills for upstream drift.
 user-invocable: true
+effort: medium
 ---
 
 Browse a GitHub repo's Claude Code skills/commands, compare them to your existing workflow, and suggest which ones are worth adapting.

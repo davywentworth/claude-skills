@@ -2,6 +2,7 @@
 name: test-review
 description: This skill should be used when the user wants an antagonistic test quality review. Checks test files against 4 criteria — minimal mocking, well-named, clearly written, antagonistic coverage — and fixes issues in a loop until clean.
 user-invocable: true
+effort: high
 ---
 
 Antagonistic test quality review. Checks test files against 4 criteria: minimal mocking, well-named, clearly written, and antagonistic coverage.

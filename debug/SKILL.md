@@ -1,6 +1,7 @@
 ---
 name: debug
 description: This skill should be used when the user reports a bug, test failure, or unexpected behavior and wants a systematic parallel investigation. Spawns competing-hypothesis investigators in parallel to find root cause faster than single-agent linear debugging.
+effort: medium
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/debug/SKILL.md

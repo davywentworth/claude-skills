@@ -1,6 +1,7 @@
 ---
 name: verification-before-completion
 description: This skill should be used when Claude is about to claim work is complete, commit, create a PR, or assert that tests/lint/builds pass. Requires running verification commands and reading actual output before making any completion claim. Evidence before assertions, always.
+effort: low
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/verification-before-completion/SKILL.md

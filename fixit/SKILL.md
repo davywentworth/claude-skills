@@ -1,6 +1,7 @@
 ---
 name: fixit
 description: This skill should be used when the user reports a bug that can be fixed without blocking current work. Creates a GitHub issue for tracking, backgrounds an agent in a worktree to fix it, and merges the result back automatically.
+effort: medium
 ---
 
 > Adapted from: https://github.com/anutron/ai/blob/main/skills/fixit/SKILL.md
