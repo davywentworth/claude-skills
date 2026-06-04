@@ -17,11 +17,21 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
 
 3. **Spawn parallel research while drafting** — once you have the description, do both at the same time:
 
-   a. **Explore agent** (background, `subagent_type=Explore`): Survey all `SKILL.md` files in both skill repos (paths from CLAUDE.md) and identify any whose behavior overlaps with or could be invoked as a substep of the new skill. Return a list: skill name, which substep it covers, and whether to call it via the Skill tool.
+   a. **Explore agent** (background, `subagent_type=Explore`): Survey all `SKILL.md` files in both skill repos (paths from CLAUDE.md) and:
+      - Identify any skills whose behavior overlaps with or could be invoked as a substep of the new skill. Return: skill name, which substep it covers, whether to call it via the Skill tool.
+      - Identify any existing specialized distiller/reviewer *agents* (agent type definitions, e.g. `resume-analyst`) that could be reused by the new skill.
+      - Assess whether the new skill's description warrants a new companion distiller agent (reads heavy sources, returns distilled output) — report yes/no and why.
 
    b. **Draft the SKILL.md body** inline while the agent runs. Do not wait for it. Write the best first-pass you can without the reuse findings.
 
-4. **Incorporate reuse** — when the Explore agent returns, revise the draft to invoke reusable skills via the Skill tool rather than reproducing their behavior inline. Prefer delegation over duplication.
+4. **Incorporate reuse** — when the Explore agent returns, revise the draft to invoke reusable skills via the Skill tool and reuse existing agents rather than reproducing their behavior inline. Prefer delegation over duplication.
+
+4a. **Apply the agent-forward pattern** — Read `~/.claude/AGENT-FORWARD.md`. Run its applicability test against the skill's description:
+   - Reads ≥1 large source OR ≥3 files? → apply P1, P2, P6 (front-loading analyst, paths not contents).
+   - Fans out to parallel agents? → apply P3, P4 (compress shared context once; batch 3–5 items per agent).
+   - Multi-phase or long-running? → apply P5 (staging file + `continue` mode).
+
+   For each applicable principle, revise the draft to embody it — design the front-loading analyst, the shared-context block, batching, or staging file as concrete steps. If no principles apply (thin/single-shot skill), add a one-line note in the draft: "This is a single-pass skill; the agent-forward pattern does not apply."
 
 5. **Write the skill file** — create `<repo>/<name>/SKILL.md`. The file MUST start with YAML frontmatter:
 
@@ -33,7 +43,7 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
    ---
    ```
 
-   Then the body: imperative tone, step-by-step where appropriate, no unnecessary preamble. Do not hardcode user-specific absolute paths — derive them dynamically (git commands, CLAUDE.md references, symlink resolution) or note them as user-configurable.
+   Then the body: imperative tone, step-by-step where appropriate, no unnecessary preamble. Do not hardcode user-specific absolute paths — derive them dynamically (git commands, CLAUDE.md references, symlink resolution) or note them as user-configurable. The body must reflect the agent-forward decisions from Step 4a: if a front-loading analyst, batching, or staging file was prescribed, those must appear as named steps.
 
 6. **Generate test scenarios** — invoke the `/skill-tdd generate <name>` skill via the Skill tool to create `<repo>/<name>/tests/scenarios.md`. For a new skill, generated scenarios will cover the main happy path, the primary error/bad-input case, and any edge cases implied by the SKILL.md steps.
 
