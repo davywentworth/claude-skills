@@ -55,7 +55,7 @@ The user will invoke this as `/new-skill <name>` or `/new-skill` (and you'll ask
    git -C <repo-path> add <name>/
    git -C <repo-path> commit -m "Add <name> skill"
    git -C <repo-path> push
-   ln -sf <repo-path>/<name> ~/.claude/commands/<name>
+   ln -sf <repo-path>/<name> ~/.claude/skills/<name>
    ```
 
 9. **Update memory** — add the new skill in two places:
