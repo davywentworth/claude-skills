@@ -87,6 +87,8 @@ Read the existing `~/research/<slug>/README.md`. Add new content:
 - Rewrite the `## Overview` to reflect the complete current state (the one exception to no-overwrite)
 - Update `date` in frontmatter to today
 
+**Write incrementally, never as one giant rewrite.** Use the `Edit` tool with small, targeted `old_string`/`new_string` pairs — one `Edit` call per new section, separate small `Edit` calls for each table/list update elsewhere in the doc, and for the `## Overview` rewrite target only its existing text as the `old_string`. Do NOT read the whole file and issue a single `Write` with the full rewritten content — once a doc has accumulated several thousand words, that single-call output can exceed the model's 32,000 output-token response cap and fail outright, losing the new content. If a single new section is itself very large, split it across two or more sequential `Edit` calls rather than emitting it all in one response.
+
 **Adding to job-search Company Notes:**
 
 Find the `## Company Notes` section in `~/research/job-search/README.md`. Add a new `### <Company> — Employer Research` subsection using the established format (Glassdoor, role summary, benefits, what employees say, company health, domain, caution flags).
