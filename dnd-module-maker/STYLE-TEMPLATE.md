@@ -88,13 +88,20 @@ html,body{
 .columns{ column-count:2; column-gap:0.38in; }
 
 /* ---------- Section / area (room) headers ---------- */
-/* break-inside:avoid, not avoid-page: avoid-page only covers page breaks.
-   Chrome treats column breaks as a separate fragmentation context, so with
-   avoid-page the circular .area-num badge can get sliced mid-render at a
-   column boundary and partially re-render on the next column. Plain
-   "avoid" covers both page and column breaks. */
-.area{ break-inside: avoid; margin-bottom:0.14in; }
-.area-head{ display:flex; align-items:center; gap:0.12in; margin:0.1in 0 0.08in 0; break-after:avoid; }
+.area{ margin-bottom:0.14in; }
+/* break-inside:avoid is scoped to JUST .area-head (the badge + title row),
+   not the whole .area block. avoid-page alone isn't enough — Chrome treats
+   column breaks as a separate fragmentation context, so the circular
+   .area-num badge can still get sliced mid-render at a column boundary and
+   partially re-render on the next column. Putting break-inside:avoid on
+   the whole .area instead of just .area-head "fixes" that but is WRONG:
+   it forces the entire room entry (flavor box, encounter, paragraphs,
+   treasure) to jump to the next column/page as one unit whenever it
+   doesn't fit the remaining space, leaving a large whitespace gap at the
+   bottom of the column it left. Keep the protection scoped to the small
+   header row only; break-after:avoid keeps it glued to the first line of
+   body text that follows. */
+.area-head{ display:flex; align-items:center; gap:0.12in; margin:0.1in 0 0.08in 0; break-inside:avoid; break-after:avoid; }
 .area-num{ flex:0 0 auto; background:var(--maroon); color:var(--cream); font-family:'Cinzel', serif; font-weight:700; font-size:15.6pt; width:0.5in; height:0.5in; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--gold-light); }
 .area-title{ font-family:'Cinzel', serif; font-weight:700; font-size:15.6pt; color:var(--maroon-dark); text-transform:uppercase; letter-spacing:0.02em; border-bottom:1.5px solid var(--rule); flex:1; padding-bottom:2px; }
 .area-sub{ font-family:'Cinzel', serif; font-weight:500; font-size:13.2pt; color:var(--maroon); margin:0.12in 0 0.05in 0; letter-spacing:0.02em; border-bottom:1px dotted var(--rule); }
@@ -304,10 +311,19 @@ them or shell out to Python for PDF rasterization. Instead:
 - **A dialogue quote splitting mid-sentence across a column/page break**: fix is
   `break-inside: avoid` on `blockquote.say p` (already in the CSS above).
 - **A room's circular number badge getting sliced in half at a column break, with the
-  header re-rendering fresh at the top of the next column**: caused by `.area` using
-  `break-inside: avoid-page` instead of `break-inside: avoid`. `avoid-page` only applies to
-  page-break fragmentation; Chrome treats column breaks as a separate context, so a flex
-  element like `.area-head` (number badge + title) can still get cut mid-column. Fix is
-  plain `break-inside: avoid` on `.area` (already in the CSS above) — verify by screenshotting
-  the actual page boundary where a room entry lands near a column split, not just the
-  component in isolation.
+  header re-rendering fresh at the top of the next column**: `avoid-page` alone isn't enough
+  — it only applies to page-break fragmentation, and Chrome treats column breaks as a
+  separate context, so a flex element like `.area-head` (number badge + title) can still get
+  cut mid-column. Fix is `break-inside: avoid` on `.area-head` specifically (already in the
+  CSS above) — verify by screenshotting the actual page boundary where a room entry lands
+  near a column split, not just the component in isolation.
+- **Don't overcorrect the above by putting `break-inside: avoid` on the whole `.area` block**
+  instead of just `.area-head`. That "fixes" the badge but is wrong: it forces the entire
+  room entry (flavor box, encounter, body paragraphs, treasure box) to jump as one unit to
+  the next column/page whenever the full entry doesn't fit the remaining space, leaving a
+  large, visually obvious whitespace gap at the bottom of the column it left. Scope the
+  break protection to the small header row only; `break-after: avoid` on `.area-head` keeps
+  it glued to the first line of body text without dragging the whole room along. Reproduced
+  and confirmed in a real build: the overcorrected version inflated the document from 23
+  pages to 28 purely from whitespace gaps scattered through every room that happened to
+  straddle a column boundary.
