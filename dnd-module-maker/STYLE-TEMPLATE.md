@@ -296,13 +296,49 @@ a.xref{ color: var(--maroon); font-weight: 700; text-decoration: underline; text
 
 ### Stat blocks: when to include
 
-Only build a full `.statblock` for creatures NOT in the SRD (check via the Open5e API,
-`api.open5e.com/v1/monsters/?search=<name>` — a `wotc-srd` document slug means it's SRD).
-For SRD creatures (Zombie, Bandit, Ghoul, Giant Spider, etc.), just reference them by name
-("6 Zombies") — any GM can look those up freely, so a full box is unnecessary bulk. Prefer
-the 2024/5.5e SRD revision if one exists for a creature that needs a box; if the source is a
-specific non-SRD adventure (e.g. *Descent into Avernus*), there usually isn't one, so use the
-original.
+Only build a full `.statblock` for creatures NOT in the SRD. Check each creature name against
+the Open5e API before deciding:
+
+- 2014/5.1 rules: `https://api.open5e.com/v1/monsters/?search=<name>&format=json` — a result
+  with `"document__slug": "wotc-srd"` means it's SRD; skip the full box, just reference it by
+  name ("6 Zombies"). Any GM can look an SRD creature up freely.
+- 2024/5.5e rules, if the user asks for the newer ruleset: the v1 endpoint above doesn't carry
+  2024 content. Use `https://api.open5e.com/v2/creatures/?document=srd-2024&format=json` and
+  filter client-side (the `search` query param on `/v2/` does not reliably filter server-side
+  — fetch and scan the returned list, or page through it).
+- If a creature is not found under either SRD document, it needs a full `.statblock`. For a
+  creature from a specific non-SRD adventure (e.g. *Descent into Avernus*), there's usually no
+  2024 revision to fall back to — use the published original and say so in the source note.
+  Cross-reference a monster database like `aidedd.org/dnd/monstres.php?vo=<slug>` for the
+  stat block; these sites often give names of traits/actions without full body text — fill in
+  standard weapon-attack math yourself (proficiency + ability mod, from already-confirmed
+  AC/ability scores) but flag anything reconstructed vs. independently verified in the source
+  note. Never present a guess as official text.
+
+Add a quick `(AC x, HP y, Initiative +z)` to every encounter box mentioning a creature — SRD
+or not. It's cheap table-reference value even when there's no full stat block to go with it.
+
+### Portraits: sourcing art
+
+Ask the user if they have source art before searching yourself — they may have book scans or
+a preferred image (this is usually faster and more reliably on-topic than a search). If
+searching, a monster database that includes art (e.g. aidedd.org) is a reasonable source for
+personal, non-redistributed DM prep; don't scrape pirated full-book scans. If no good art
+turns up, proceed stat-block-only and say so rather than forcing a mismatched image in.
+
+Build ONE sample stat block + portrait and show the user a screenshot before rolling the
+pattern out to every other creature in the document — naming convention, box styling, and art
+choice are all things worth confirming before repeating them a dozen times.
+
+### Cross-reference links: what Chrome's print engine actually supports
+
+Tested empirically (isolated test file, Playwright click): a plain `<a href="#anchor">` DOES
+survive Chrome's print-to-pdf and become a real, clickable internal PDF link — verified by
+clicking one and watching the PDF viewer jump to the target page. CSS `target-counter()` for
+generating literal "(page 12)" text next to a link does NOT work in Chrome's print engine (no
+error, the generated text just silently never renders) — that's a Prince/WeasyPrint/Paged.js
+feature, not a Chromium one. Use `a.xref` links for in-document navigation; don't attempt
+page-number text, and don't burn time re-testing this.
 
 ### Stat block + portrait: placement pattern
 

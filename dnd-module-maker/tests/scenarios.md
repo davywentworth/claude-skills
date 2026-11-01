@@ -161,3 +161,43 @@ The work file already contains the fully cleaned, chapter-structured module pros
 - The skill starts over from Step 1 as if this were a fresh build
 
 ---
+
+## Scenario: statblock-srd-check-and-generic-naming
+**Rationale:** Past session: the skill originally put a generic monster's full stat block
+under the specific NPC instance's name ("Lubash") instead of the creature type ("Reaper of
+Bhaal"), and had to be corrected to only build full stat blocks for non-SRD creatures,
+keeping SRD creatures as plain references. Also covers the whitespace-gap fix: text must be
+placed before each non-breaking box (image, stat block) in the HTML source so columns fill
+naturally instead of leaving a gap when the box gets pushed to the next column/page.
+
+### Input
+"Add stat blocks: a named ogre-like minion called 'Grukk' (an instance of a generic 'Bog
+Troll' monster type, not in the 5e SRD) guards a room, and the same room has 2 Zombies (an
+SRD creature)."
+
+### Context
+The work file names the room's encounter as "Grukk, a Bog Troll, and 2 Zombies." The agent
+has access to the Open5e API for SRD checks.
+
+### MUST
+- The skill checks each creature name against the Open5e API (`api.open5e.com/v1/monsters`)
+  before deciding whether it needs a full stat block
+- Zombies (SRD) are left as a plain reference ("2 Zombies"), not given a full `.statblock`
+- Grukk gets a full `.statblock`, but its `<h4>` heading reads "Bog Troll" (the creature
+  type), not "Grukk" (the specific instance's name) — "Grukk" appears only in the room's
+  prose/encounter-box text
+- The HTML places some body text between the encounter box and the `.creature-art` image,
+  and more body text between the image and the `.statblock`, rather than stacking
+  image+statblock immediately back-to-back with nothing to fill the column first
+- The agent shows the user one sample stat block + portrait and asks for approval before
+  applying the pattern to any other creature in the document
+
+### MUST NOT
+- The stat block or portrait caption names "Grukk" instead of "Bog Troll"
+- A full `.statblock` is built for the Zombies
+- `.statblock` or `.creature-art` lacks `break-inside: avoid` (the box is allowed to split
+  across a column/page break)
+- The agent rolls the stat-block pattern out to other creatures before the user has seen and
+  approved the first sample
+
+---

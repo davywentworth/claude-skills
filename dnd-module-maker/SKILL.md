@@ -116,6 +116,27 @@ one (e.g. the column-span whitespace gap, or an image getting pushed to its own 
 check whether `STYLE-TEMPLATE.md` already documents it before re-deriving a solution from
 scratch, and consider adding a newly-discovered gotcha back into that file for next time.
 
+## Step 7a: Monster stat blocks and portraits (if requested)
+
+Not every build needs this — only do it if the user asks for stat blocks or creature art.
+When they do:
+
+1. **Scope it first, via `AskUserQuestion`, before building anything.** The default: named/
+   unique NPCs and non-SRD creatures get a full `.statblock` box; generic SRD creatures stay
+   as plain name references. Confirm this with the user rather than assuming — it's a
+   document-wide decision that's expensive to redo.
+2. Read the "Stat blocks: when to include" and "Portraits: sourcing art" sections of
+   `STYLE-TEMPLATE.md` in full before building anything — they cover the Open5e SRD-check API
+   calls, the generic-type-vs-unique-NPC naming rule, and art-sourcing guidance.
+3. Build and render ONE sample stat block + portrait, and show the user a screenshot before
+   rolling the pattern out to every other creature. Don't batch-apply an unapproved pattern.
+4. Once approved, apply it to every other instance: check each remaining creature's SRD
+   status, build its box (or skip it if SRD), add `(AC x, HP y, Initiative +z)` to its
+   encounter box, and link the first substantive mention to the stat block with `a.xref` per
+   the placement pattern in `STYLE-TEMPLATE.md` (body text before the image, more body text
+   before the stat block, so columns fill naturally instead of leaving gaps).
+5. Render and verify same as Step 6 — screenshot every placement, not just the sample.
+
 ## Step 8: Deliver
 
 Copy the final PDF to `~/Downloads/`, not just the build directory (which is
