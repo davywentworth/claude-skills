@@ -88,7 +88,12 @@ html,body{
 .columns{ column-count:2; column-gap:0.38in; }
 
 /* ---------- Section / area (room) headers ---------- */
-.area{ break-inside: avoid-page; margin-bottom:0.14in; }
+/* break-inside:avoid, not avoid-page: avoid-page only covers page breaks.
+   Chrome treats column breaks as a separate fragmentation context, so with
+   avoid-page the circular .area-num badge can get sliced mid-render at a
+   column boundary and partially re-render on the next column. Plain
+   "avoid" covers both page and column breaks. */
+.area{ break-inside: avoid; margin-bottom:0.14in; }
 .area-head{ display:flex; align-items:center; gap:0.12in; margin:0.1in 0 0.08in 0; break-after:avoid; }
 .area-num{ flex:0 0 auto; background:var(--maroon); color:var(--cream); font-family:'Cinzel', serif; font-weight:700; font-size:15.6pt; width:0.5in; height:0.5in; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--gold-light); }
 .area-title{ font-family:'Cinzel', serif; font-weight:700; font-size:15.6pt; color:var(--maroon-dark); text-transform:uppercase; letter-spacing:0.02em; border-bottom:1.5px solid var(--rule); flex:1; padding-bottom:2px; }
@@ -298,3 +303,11 @@ them or shell out to Python for PDF rasterization. Instead:
   exactly one page before moving on.
 - **A dialogue quote splitting mid-sentence across a column/page break**: fix is
   `break-inside: avoid` on `blockquote.say p` (already in the CSS above).
+- **A room's circular number badge getting sliced in half at a column break, with the
+  header re-rendering fresh at the top of the next column**: caused by `.area` using
+  `break-inside: avoid-page` instead of `break-inside: avoid`. `avoid-page` only applies to
+  page-break fragmentation; Chrome treats column breaks as a separate context, so a flex
+  element like `.area-head` (number badge + title) can still get cut mid-column. Fix is
+  plain `break-inside: avoid` on `.area` (already in the CSS above) — verify by screenshotting
+  the actual page boundary where a room entry lands near a column split, not just the
+  component in isolation.
