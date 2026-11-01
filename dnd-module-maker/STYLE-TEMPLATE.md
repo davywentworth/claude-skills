@@ -166,6 +166,59 @@ table.dmtable td{ border-bottom:1px solid var(--rule); padding:3px 5px; vertical
   padding:6px;
 }
 .mapfig .caption{ font-family:'Cinzel', serif; font-size:10pt; letter-spacing:0.06em; color:var(--maroon); text-align:center; margin-top:0.06in; font-style:normal; }
+
+/* ---------- Monster stat blocks (non-SRD creatures only — see "Stat
+   blocks: when to include" below) ---------- */
+.statblock{
+  /* Never splits -- break-inside:avoid pushes the whole box to the next
+     column/page as a unit if it doesn't fit the remaining space, rather
+     than cutting it mid-box. This alone can create a large whitespace gap
+     if nothing else fills the column first -- see "Stat blocks must never
+     wrap" below for the fix (put real body text before it in the HTML). */
+  background: var(--cream-box);
+  border: 2px solid var(--maroon);
+  padding: 0.12in 0.16in;
+  margin: 0.1in 0 0.14in 0;
+  break-inside: avoid;
+  font-size: 10.6pt;
+}
+/* Escape valve: if a stat block is too tall to ever fit a single column
+   (lots of traits/actions), use this as a sibling block OUTSIDE .columns,
+   same pattern as .mapfig, so it spans both columns at the page bottom. */
+.statblock.wide{ columns: 2; column-gap: 0.38in; }
+.statblock h4{ font-family:'Cinzel', serif; font-weight:700; font-size:13.6pt; color:var(--maroon-dark); text-transform:uppercase; letter-spacing:0.02em; margin:0; }
+.statblock .sb-subtitle{ font-style:italic; font-size:10pt; color:#4a3820; margin:0 0 0.05in 0; }
+.statblock hr{ border:none; border-top:2px solid var(--maroon); margin:0.06in 0; }
+.statblock .sb-topline{ margin:0.02in 0; }
+.statblock .sb-scores{ width:100%; border-collapse:collapse; margin:0.06in 0; text-align:center; font-size:9.6pt; }
+.statblock .sb-scores th{ font-family:'Cinzel', serif; font-size:8.6pt; letter-spacing:0.08em; color:var(--maroon); padding:1px 2px; border-bottom:1px solid var(--rule); }
+.statblock .sb-scores td{ padding:1px 2px; }
+.statblock .sb-meta p{ margin:0.02in 0; }
+.statblock .sb-traits p, .statblock .sb-actions p{ margin:0.04in 0; text-align:left; }
+.statblock .sb-actions-head{ font-family:'Cinzel', serif; font-weight:700; font-size:10.6pt; color:var(--maroon-dark); text-transform:uppercase; letter-spacing:0.06em; border-bottom:1px solid var(--rule); margin:0.08in 0 0.03in 0; }
+.statblock .sb-source{ font-size:8.8pt; font-style:italic; color:#6a5a3a; margin-top:0.06in; }
+
+/* ---------- Standalone creature portrait ----------
+   Deliberately separate from .statblock and labeled with the creature TYPE
+   only (never a specific NPC's name, unless that NPC truly is one-of-a-kind
+   -- see "Generic type vs. unique individual" below) so the same art +
+   label can be reused anywhere else that creature type appears. */
+.creature-art{
+  width: 100%; /* full width of its column (or the 2-col span if .wide) */
+  margin: 0.05in 0 0.1in 0;
+  text-align:center;
+  break-inside: avoid; /* protects image+caption as one unit; see gotcha below */
+}
+.creature-art.wide img{ max-height: 4.2in; } /* for landscape art spanning 2 columns, same as .mapfig */
+.creature-art.wide .frame{ display:inline-block; }
+.creature-art .frame{ position: relative; border: 3px double var(--maroon); padding: 7px; background: #fff; display:block; }
+.creature-art .frame::before{ content:""; position:absolute; inset: 3px; border: 1px solid var(--gold-light); pointer-events:none; }
+.creature-art img{ display:block; width:100%; height:auto; }
+.creature-art .caption{ font-family:'Cinzel', serif; font-size:8.6pt; letter-spacing:0.08em; color:var(--maroon); text-transform:uppercase; margin-top:0.05in; }
+
+/* ---------- Cross-reference jump links (e.g. a monster name in prose
+   pointing at its stat block elsewhere in the document) ---------- */
+a.xref{ color: var(--maroon); font-weight: 700; text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1px; }
 ```
 
 ---
@@ -239,6 +292,62 @@ table.dmtable td{ border-bottom:1px solid var(--rule); padding:3px 5px; vertical
     <ul><li>[Item, value]</li></ul>
   </div>
 </div>
+```
+
+### Stat blocks: when to include
+
+Only build a full `.statblock` for creatures NOT in the SRD (check via the Open5e API,
+`api.open5e.com/v1/monsters/?search=<name>` — a `wotc-srd` document slug means it's SRD).
+For SRD creatures (Zombie, Bandit, Ghoul, Giant Spider, etc.), just reference them by name
+("6 Zombies") — any GM can look those up freely, so a full box is unnecessary bulk. Prefer
+the 2024/5.5e SRD revision if one exists for a creature that needs a box; if the source is a
+specific non-SRD adventure (e.g. *Descent into Avernus*), there usually isn't one, so use the
+original.
+
+### Stat block + portrait: placement pattern
+
+```html
+<div class="encounter"><span class="label">Encounter</span>
+  [NPC name], a [<a class="xref" href="#statblock-[type-slug]">creature type</a>]
+  (AC [x], HP [y], Initiative [+z]), [one-line context].
+</div>
+
+<p>[Body text that would otherwise follow the stat block — tactics, a trigger
+condition, anything narratively tied to this room. Put ENOUGH of it here, before
+the portrait, that the column fills up naturally.]</p>
+
+<div class="creature-art">
+  <div class="frame"><img src="[creature-type-slug].png" alt="[Creature Type]"></div>
+  <div class="caption">[Creature Type]</div> <!-- generic type name, see rule below -->
+</div>
+
+<p>[More body text, if any — this is what sits between the portrait and the stat
+block. Can be empty if the first paragraph above already filled the column.]</p>
+
+<div class="statblock" id="statblock-[type-slug]">
+  <h4>[Creature Type, or the NPC's own name if unique]</h4>
+  <div class="sb-subtitle">[Size type (race), alignment]</div>
+  <hr>
+  <p class="sb-topline"><b>Armor Class</b> [x]</p>
+  <p class="sb-topline"><b>Hit Points</b> [y] ([xdy+z])</p>
+  <p class="sb-topline"><b>Speed</b> [x] ft.</p>
+  <table class="sb-scores">
+    <tr><th>STR</th><th>DEX</th><th>CON</th><th>INT</th><th>WIS</th><th>CHA</th></tr>
+    <tr><td>[x (+y)]</td><!-- ... --></tr>
+  </table>
+  <hr>
+  <div class="sb-meta"><p><b>Challenge</b> [x] ([y] XP)</p></div>
+  <div class="sb-traits"><p><b><i>[Trait name].</i></b> [Trait text.]</p></div>
+  <div class="sb-actions-head">Actions</div>
+  <div class="sb-actions"><p><b><i>[Action name].</i></b> [Action text.]</p></div>
+  <p class="sb-source">[Creature], <i>[Sourcebook]</i> (CR [x]). [Note what's
+  verified from an authoritative source vs. reconstructed/inferred — never present
+  a guess as confirmed text.]</p>
+</div>
+
+<!-- Remaining body text (What They Know, Treasure, etc.) continues after the
+     stat block, as normal flowing content. -->
+```
 ```
 
 ### NPC dialogue
@@ -327,3 +436,28 @@ them or shell out to Python for PDF rasterization. Instead:
   and confirmed in a real build: the overcorrected version inflated the document from 23
   pages to 28 purely from whitespace gaps scattered through every room that happened to
   straddle a column boundary.
+- **Stat blocks must never wrap, but can't just be `break-inside:avoid` and dropped wherever
+  they fall**: with nothing else to fill the remaining column space first, forcing the whole
+  (often tall) box to the next column/page leaves the same kind of large gap as the `.area`
+  overcorrection above. Fix: put real body text (tactics, a trigger condition — whatever
+  would narratively follow anyway) between the preceding content and the stat block in the
+  HTML source, so the column fills naturally before the forced push happens. See "Stat block
+  + portrait: placement pattern" above.
+- **The same gap can appear one step earlier, before a full-width `.creature-art` portrait**:
+  an `<img>` is not fragmentable at all (unlike text or even a stat block's constituent
+  elements) — it either fully fits the remaining column space or it doesn't, no partial
+  rendering. If a room's heading/flavor/encounter box happens to end partway down a column,
+  the portrait (plus `break-inside:avoid` on its wrapper to keep the caption attached) gets
+  pushed whole to the next column, leaving the same kind of gap. Fix is identical to the
+  stat-block case: move some body text to appear BEFORE the `.creature-art` block too, not
+  just before the `.statblock`. There's no way to know in advance how much text is "enough"
+  — render, screenshot the actual page boundary, and adjust how much text precedes the image
+  if a gap appears.
+- **Generic type vs. unique individual naming**: a `.statblock`'s `<h4>` and a
+  `.creature-art`'s caption should name the creature TYPE ("Reaper of Bhaal"), not a specific
+  NPC instance's own name ("Lubash"), UNLESS that NPC is genuinely one-of-a-kind (a named
+  boss like "Mortlock Vanthampur" — there's no separate "type" for him to fall back to). This
+  keeps the art and stat block reusable if the same creature type appears again elsewhere in
+  the document; the specific instance's name belongs only in the room's prose/encounter box
+  text (e.g. "Lubash, a Reaper of Bhaal..."), optionally as an `a.xref` link to the shared
+  stat block anchor.
